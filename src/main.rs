@@ -301,15 +301,76 @@ fn get_halo(pos: &Pos, distance: usize) -> Vec<Pos> {
 }
 
 fn display_board(board: &Board) {
-    for x in 0..FIELD_SIZE {
-        for y in 0..FIELD_SIZE {
-            if board.cells[x][y].is_some() {
-                print!("  ");
-            } else {
-                print!("\u{2588}\u{2588}");
-            }
+    for y in 0..FIELD_SIZE {
+        for _ in 0..FIELD_SIZE {
+            print!("┼──────────┼");
         }
         println!();
+
+        for x in 0..FIELD_SIZE {
+            let side = match top_side(&board.cells[x][y]) {
+                FIELD => "          ",
+                ROAD => "    ██    ",
+                TOWN => "██████████",
+            };
+            print!("│{}│", side);
+        }
+        println!();
+
+        for x in 0..FIELD_SIZE {
+            let left_side = match left_side(&board.cells[x][y]) {
+                FIELD => "  ",
+                ROAD => "  ",
+                TOWN => "██",
+            };
+            let right_side = match right_side(&board.cells[x][y]) {
+                FIELD => "  ",
+                ROAD => "  ",
+                TOWN => "██",
+            };
+            print!("│{}      {}│", left_side, right_side);
+        }
+        println!();
+
+        for x in 0..FIELD_SIZE {
+            let left_side = match left_side(&board.cells[x][y]) {
+                FIELD => "  ",
+                ROAD => "██",
+                TOWN => "██",
+            };
+            let right_side = match right_side(&board.cells[x][y]) {
+                FIELD => "  ",
+                ROAD => "██",
+                TOWN => "██",
+            };
+            print!("│{}      {}│", left_side, right_side);
+        }
+        println!();
+
+        for x in 0..FIELD_SIZE {
+            let left_side = match left_side(&board.cells[x][y]) {
+                FIELD => "  ",
+                ROAD => "  ",
+                TOWN => "██",
+            };
+            let right_side = match right_side(&board.cells[x][y]) {
+                FIELD => "  ",
+                ROAD => "  ",
+                TOWN => "██",
+            };
+            print!("│{}      {}│", left_side, right_side);
+        }
+        println!();
+
+        for x in 0..FIELD_SIZE {
+            let side = match bottom_side(&board.cells[x][y]) {
+                FIELD => "          ",
+                ROAD => "    ██    ",
+                TOWN => "██████████",
+            };
+            print!("│{}│", side);
+        }
+        println!()
     }
 }
 
@@ -339,15 +400,43 @@ impl Cell {
     }
 
     fn top(&self) -> TerrainType {
-        self.card.sides[self.card_side + 1]
+        self.card.sides[(self.card_side + 1) % 4]
     }
 
     fn right(&self) -> TerrainType {
-        self.card.sides[self.card_side + 2]
+        self.card.sides[(self.card_side + 2) % 4]
     }
 
     fn bottom(&self) -> TerrainType {
-        self.card.sides[self.card_side + 3]
+        self.card.sides[(self.card_side + 3) % 4]
+    }
+}
+
+fn left_side(cell: &Option<Cell>) -> TerrainType {
+    match cell {
+        Some(cell) => cell.left(),
+        None => FIELD,
+    }
+}
+
+fn top_side(cell: &Option<Cell>) -> TerrainType {
+    match cell {
+        Some(cell) => cell.top(),
+        None => FIELD,
+    }
+}
+
+fn right_side(cell: &Option<Cell>) -> TerrainType {
+    match cell {
+        Some(cell) => cell.right(),
+        None => FIELD,
+    }
+}
+
+fn bottom_side(cell: &Option<Cell>) -> TerrainType {
+    match cell {
+        Some(cell) => cell.bottom(),
+        None => FIELD,
     }
 }
 

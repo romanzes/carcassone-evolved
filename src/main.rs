@@ -100,7 +100,7 @@ fn main() {
         best_alg = new_best_alg;
         println!("best result: {}", best_result);
     }
-    let board = fill_board(&best_alg.cells);
+    let board = fill_board(&best_alg.arranged_cells);
     display_board(&board);
 }
 

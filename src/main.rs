@@ -307,7 +307,7 @@ fn get_halo(pos: &Pos, distance: usize) -> Vec<Pos> {
 fn display_board(board: &Board) {
     for y in 0..FIELD_SIZE {
         for _ in 0..FIELD_SIZE {
-            print!("┼──────────┼");
+            print!("┼──────────");
         }
         println!();
 
@@ -317,7 +317,7 @@ fn display_board(board: &Board) {
                 ROAD => "    ██    ",
                 TOWN => "██████████",
             };
-            print!("│{}│", side);
+            print!("│{}", side);
         }
         println!();
 
@@ -332,7 +332,7 @@ fn display_board(board: &Board) {
                 ROAD => "  ",
                 TOWN => "██",
             };
-            print!("│{}      {}│", left_side, right_side);
+            print!("│{}      {}", left_side, right_side);
         }
         println!();
 
@@ -347,7 +347,7 @@ fn display_board(board: &Board) {
                 ROAD => "██",
                 TOWN => "██",
             };
-            print!("│{}      {}│", left_side, right_side);
+            print!("│{}      {}", left_side, right_side);
         }
         println!();
 
@@ -362,7 +362,7 @@ fn display_board(board: &Board) {
                 ROAD => "  ",
                 TOWN => "██",
             };
-            print!("│{}      {}│", left_side, right_side);
+            print!("│{}      {}", left_side, right_side);
         }
         println!();
 
@@ -372,7 +372,7 @@ fn display_board(board: &Board) {
                 ROAD => "    ██    ",
                 TOWN => "██████████",
             };
-            print!("│{}│", side);
+            print!("│{}", side);
         }
         println!()
     }

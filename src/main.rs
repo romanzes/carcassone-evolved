@@ -190,7 +190,7 @@ fn rearrange_overlaps(cells: &mut Vec<Cell>) {
                 card: cell.card,
                 card_side: cell.card_side,
             };
-            board.cells[cell.pos.x][cell.pos.y] = Some(cells[index]);
+            board.cells[closest_free_pos.x][closest_free_pos.y] = Some(cells[index]);
         } else {
             board.cells[cell.pos.x][cell.pos.y] = Some(cell.clone());
         }

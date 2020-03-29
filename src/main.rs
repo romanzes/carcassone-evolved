@@ -1,6 +1,7 @@
 use rand::Rng;
 use TerrainType::*;
 use std::collections::HashSet;
+use rand::prelude::ThreadRng;
 
 const CARDS: [Card; 20] = [
     Card { sides: [ROAD, FIELD, ROAD, TOWN] },
@@ -29,10 +30,23 @@ const FIELD_SIZE: usize = 30;
 const POPULATION_SIZE: usize = 100;
 
 fn main() {
-    let population: Vec<Algorithm> = (0..POPULATION_SIZE).map(|_| generate_algorithm()).collect();
-    population.iter().for_each(|algorithm| {
-        println!("{}", evaluate_algorithm(algorithm));
-    });
+    let mut population: Vec<Algorithm> = (0..POPULATION_SIZE).map(|_| generate_algorithm()).collect();
+    let mut rated_algs: Vec<(usize, Algorithm)> = population.into_iter().map(|algorithm| (evaluate_algorithm(&algorithm), algorithm)).collect();
+    rated_algs.sort_by_key(|(score, _)| *score);
+    let (mut best_result, _) = rated_algs[0];
+    let rated_algs: Vec<Algorithm> = rated_algs.into_iter().map(|(_, alg)| alg).collect();
+    population = next_generation(&rated_algs);
+    println!("best result: {}", best_result);
+    while best_result > 1 {
+        let mut rated_algs: Vec<(usize, Algorithm)> = population.into_iter().map(|algorithm| (evaluate_algorithm(&algorithm), algorithm)).collect();
+        rated_algs.sort_by_key(|(score, _)| *score);
+        let (new_best_result, _) = rated_algs[0];
+        let rated_algs: Vec<Algorithm> = rated_algs.into_iter().map(|(_, alg)| alg).collect();
+        population = next_generation(&rated_algs);
+        best_result = new_best_result;
+        println!("best result: {}", best_result);
+    }
+    println!("best result: {}", best_result);
 }
 
 fn generate_algorithm() -> Algorithm {
@@ -108,6 +122,38 @@ fn get_neighbours(board: &Board, pos: &Pos) -> Vec<Pos> {
 
 fn remove_cells(board: &mut Board, cells: &Vec<Cell>) {
     cells.iter().for_each(|cell| board.cells[cell.pos.x][cell.pos.y] = None);
+}
+
+fn next_generation(rated_algorithms: &Vec<Algorithm>) -> Vec<Algorithm> {
+    let mut result = vec![];
+    let mut rng = rand::thread_rng();
+    for _ in 0..POPULATION_SIZE {
+        let index1 = select_index(&mut rng);
+        let mut index2 = select_index(&mut rng);
+        while index2 == index1 {
+            index2 = select_index(&mut rng);
+        }
+        let parent1 = &rated_algorithms[index1];
+        let parent2 = &rated_algorithms[index2];
+        result.push(breed(parent1, parent2));
+    }
+    result
+}
+
+fn select_index(rng: &mut ThreadRng) -> usize {
+    let rand: f64 = rng.gen_range(0.0, 1.0);
+    ((1.0 - ((1.0 - rand).sqrt())) * 100.0) as usize
+}
+
+fn breed(algorithm1: &Algorithm, algorithm2: &Algorithm) -> Algorithm {
+    let mut rng = rand::thread_rng();
+    let index = rng.gen_range(0, CARDS.len());
+    let (first_part, _) = algorithm1.cells.split_at(index);
+    let (_, second_part) = algorithm2.cells.split_at(index);
+    let mut cells = vec![];
+    cells.extend(first_part);
+    cells.extend(second_part);
+    Algorithm { cells }
 }
 
 struct Algorithm {

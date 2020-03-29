@@ -100,6 +100,7 @@ fn get_leaves(board: &Board, cells: &Vec<Cell>) -> Vec<Cell> {
     cells.iter().for_each(|cell| {
         get_neighbours(board, &cell.pos).iter().for_each(|neighbour| {
             if !checked_leaves.contains(neighbour) {
+                checked_leaves.insert(neighbour.clone());
                 leaves.push(board.cells[neighbour.x][neighbour.y].unwrap());
             }
         })

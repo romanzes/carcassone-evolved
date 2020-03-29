@@ -28,6 +28,7 @@ const CARDS: [Card; 20] = [
 
 const FIELD_SIZE: usize = 30;
 const POPULATION_SIZE: usize = 100;
+const MUTATION_CHANCE: f64 = 0.1;
 
 fn main() {
     let mut population: Vec<Algorithm> = (0..POPULATION_SIZE).map(|_| generate_algorithm()).collect();
@@ -46,7 +47,6 @@ fn main() {
         best_result = new_best_result;
         println!("best result: {}", best_result);
     }
-    println!("best result: {}", best_result);
 }
 
 fn generate_algorithm() -> Algorithm {
@@ -150,9 +150,18 @@ fn breed(algorithm1: &Algorithm, algorithm2: &Algorithm) -> Algorithm {
     let index = rng.gen_range(0, CARDS.len());
     let (first_part, _) = algorithm1.cells.split_at(index);
     let (_, second_part) = algorithm2.cells.split_at(index);
-    let mut cells = vec![];
+    let mut cells: Vec<Cell> = vec![];
     cells.extend(first_part);
     cells.extend(second_part);
+    if rng.gen_range(0.0, 1.0) > MUTATION_CHANCE {
+        let mutation_index = rng.gen_range(0, cells.len());
+        let mutating_cell = cells[mutation_index];
+        cells[mutation_index] = Cell {
+            pos: Pos { x: rng.gen_range(0, FIELD_SIZE), y: rng.gen_range(0, FIELD_SIZE) },
+            card: mutating_cell.card,
+            card_side: rng.gen_range(0, 4),
+        };
+    }
     Algorithm { cells }
 }
 

@@ -67,12 +67,17 @@ fn generate_algorithm() -> Algorithm {
 }
 
 fn evaluate_algorithm(algorithm: &Algorithm) -> usize {
-    let mut board = Board { cells: [[None; FIELD_SIZE]; FIELD_SIZE] };
-    algorithm.cells.iter().for_each(|cell| {
-        board.cells[cell.pos.x][cell.pos.y] = Some(cell.clone());
-    });
+    let mut board = fill_board(&algorithm.cells);
     let clusters = extract_clusters(&mut board);
     clusters.len()
+}
+
+fn fill_board(cells: &Vec<Cell>) -> Board {
+    let mut board = Board { cells: [[None; FIELD_SIZE]; FIELD_SIZE] };
+    cells.iter().for_each(|cell| {
+        board.cells[cell.pos.x][cell.pos.y] = Some(cell.clone());
+    });
+    board
 }
 
 fn extract_clusters(board: &mut Board) -> Vec<Cluster> {
@@ -154,6 +159,12 @@ fn breed(algorithm1: &Algorithm, algorithm2: &Algorithm) -> Algorithm {
     let mut cells: Vec<Cell> = vec![];
     cells.extend(first_part);
     cells.extend(second_part);
+    mutate(&mut rng, &mut cells);
+    rearrange_overlaps(&mut cells);
+    Algorithm { cells }
+}
+
+fn mutate(rng: &mut ThreadRng, cells: &mut Vec<Cell>) {
     if rng.gen_range(0.0, 1.0) > MUTATION_CHANCE {
         let mutation_index = rng.gen_range(0, cells.len());
         let mutating_cell = cells[mutation_index];
@@ -163,7 +174,55 @@ fn breed(algorithm1: &Algorithm, algorithm2: &Algorithm) -> Algorithm {
             card_side: rng.gen_range(0, 4),
         };
     }
-    Algorithm { cells }
+}
+
+fn rearrange_overlaps(cells: &mut Vec<Cell>) {
+    let mut board = Board { cells: [[None; FIELD_SIZE]; FIELD_SIZE] };
+    for index in 0..cells.len() {
+        let cell = cells[index];
+        if board.cells[cell.pos.x][cell.pos.y].is_some() {
+            let closest_free_pos = find_closest_free_pos(&mut board, &cell.pos);
+            cells[index] = Cell {
+                pos: closest_free_pos,
+                card: cell.card,
+                card_side: cell.card_side,
+            };
+            board.cells[cell.pos.x][cell.pos.y] = Some(cells[index]);
+        } else {
+            board.cells[cell.pos.x][cell.pos.y] = Some(cell.clone());
+        }
+    }
+}
+
+fn find_closest_free_pos(board: &mut Board, pos: &Pos) -> Pos {
+    let mut free_cell: Option<Pos> = None;
+    let mut distance = 1;
+    while free_cell.is_none() {
+        free_cell = get_free_cell(board, &get_halo(pos, distance));
+        distance += 1;
+    }
+    free_cell.unwrap()
+}
+
+fn get_free_cell(board: &Board, positions: &Vec<Pos>) -> Option<Pos> {
+    positions.iter().find(|pos| board.cells[pos.x][pos.y].is_none()).copied()
+}
+
+fn get_halo(pos: &Pos, distance: usize) -> Vec<Pos> {
+    let mut result: Vec<(i32, i32)> = vec![];
+    for x in pos.x as i32 - distance as i32..pos.x as i32 + distance as i32 {
+        result.push((x as i32, pos.y as i32 - distance as i32));
+        result.push((x as i32, pos.y as i32 + distance as i32));
+    }
+    for y in pos.y as i32 - distance as i32..pos.y as i32 + distance as i32 {
+        result.push((pos.x as i32 - distance as i32, y as i32));
+        result.push((pos.x as i32 + distance as i32, y as i32));
+    }
+    result
+        .into_iter()
+        .filter(|(x, y)| *x >= 0 && *y >= 0 && *x < FIELD_SIZE as i32 && *y < FIELD_SIZE as i32)
+        .map(|(x, y)| Pos { x: x as usize, y: y as usize })
+        .collect()
 }
 
 struct Algorithm {

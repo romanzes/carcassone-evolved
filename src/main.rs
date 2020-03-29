@@ -34,19 +34,22 @@ fn main() {
     let mut population: Vec<Algorithm> = (0..POPULATION_SIZE).map(|_| generate_algorithm()).collect();
     let mut rated_algs: Vec<(usize, Algorithm)> = population.into_iter().map(|algorithm| (evaluate_algorithm(&algorithm), algorithm)).collect();
     rated_algs.sort_by_key(|(score, _)| *score);
-    let (mut best_result, _) = rated_algs[0];
+    let (mut best_result, mut best_alg) = rated_algs[0].clone();
     let rated_algs: Vec<Algorithm> = rated_algs.into_iter().map(|(_, alg)| alg).collect();
     population = next_generation(&rated_algs);
     println!("best result: {}", best_result);
     while best_result > 1 {
         let mut rated_algs: Vec<(usize, Algorithm)> = population.into_iter().map(|algorithm| (evaluate_algorithm(&algorithm), algorithm)).collect();
         rated_algs.sort_by_key(|(score, _)| *score);
-        let (new_best_result, _) = rated_algs[0];
+        let (new_best_result, new_best_alg) = rated_algs[0].clone();
         let rated_algs: Vec<Algorithm> = rated_algs.into_iter().map(|(_, alg)| alg).collect();
         population = next_generation(&rated_algs);
         best_result = new_best_result;
+        best_alg = new_best_alg;
         println!("best result: {}", best_result);
     }
+    let board = fill_board(&best_alg.cells);
+    display_board(&board);
 }
 
 fn generate_algorithm() -> Algorithm {
@@ -225,6 +228,20 @@ fn get_halo(pos: &Pos, distance: usize) -> Vec<Pos> {
         .collect()
 }
 
+fn display_board(board: &Board) {
+    for x in 0..FIELD_SIZE {
+        for y in 0..FIELD_SIZE {
+            if board.cells[x][y].is_some() {
+                print!("  ");
+            } else {
+                print!("\u{2588}\u{2588}");
+            }
+        }
+        println!();
+    }
+}
+
+#[derive(Clone)]
 struct Algorithm {
     cells: Vec<Cell>,
 }

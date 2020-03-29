@@ -79,7 +79,7 @@ const CARDS: [Card; 72] = [
 ];
 
 const FIELD_SIZE: usize = 30;
-const POPULATION_SIZE: usize = 100;
+const POPULATION_SIZE: usize = 300;
 const MUTATION_CHANCE: f64 = 0.1;
 
 fn main() {
@@ -223,7 +223,7 @@ fn next_generation(rated_algorithms: &Vec<Algorithm>) -> Vec<Algorithm> {
 
 fn select_index(rng: &mut ThreadRng) -> usize {
     let rand: f64 = rng.gen_range(0.0, 1.0);
-    ((1.0 - ((1.0 - rand).sqrt())) * 100.0) as usize
+    ((1.0 - ((1.0 - rand).sqrt())) * POPULATION_SIZE as f64) as usize
 }
 
 fn breed(algorithm1: &Algorithm, algorithm2: &Algorithm) -> Algorithm {

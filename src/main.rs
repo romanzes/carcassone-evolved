@@ -118,12 +118,13 @@ fn generate_algorithm() -> Algorithm {
             Cell { pos, card: CARDS[card_id], card_side }
         })
         .collect();
-    Algorithm { cells }
+    let arranged_cells = rearrange_overlaps(&cells);
+    Algorithm { cells, arranged_cells }
 }
 
 fn evaluate_algorithm(algorithm: &Algorithm) -> usize {
-    let original_board = fill_board(&algorithm.cells);
-    let mut board = fill_board(&algorithm.cells);
+    let original_board = fill_board(&algorithm.arranged_cells);
+    let mut board = fill_board(&algorithm.arranged_cells);
     let clusters = extract_clusters(&mut board);
     let error_number = count_non_matching_tiles(&original_board) + clusters.len() - 1;
     error_number
@@ -236,8 +237,8 @@ fn breed(algorithm1: &Algorithm, algorithm2: &Algorithm) -> Algorithm {
     cells.extend(first_part);
     cells.extend(second_part);
     mutate(&mut rng, &mut cells);
-    rearrange_overlaps(&mut cells);
-    Algorithm { cells }
+    let arranged_cells = rearrange_overlaps(&cells);
+    Algorithm { cells, arranged_cells }
 }
 
 fn mutate(rng: &mut ThreadRng, cells: &mut Vec<Cell>) {
@@ -252,8 +253,9 @@ fn mutate(rng: &mut ThreadRng, cells: &mut Vec<Cell>) {
     }
 }
 
-fn rearrange_overlaps(cells: &mut Vec<Cell>) {
+fn rearrange_overlaps(cells: &Vec<Cell>) -> Vec<Cell> {
     let mut board = Board { cells: [[None; FIELD_SIZE]; FIELD_SIZE] };
+    let mut cells = cells.clone();
     for index in 0..cells.len() {
         let cell = cells[index];
         if board.cells[cell.pos.x][cell.pos.y].is_some() {
@@ -268,6 +270,7 @@ fn rearrange_overlaps(cells: &mut Vec<Cell>) {
             board.cells[cell.pos.x][cell.pos.y] = Some(cell.clone());
         }
     }
+    cells
 }
 
 fn find_closest_free_pos(board: &mut Board, pos: &Pos) -> Pos {
@@ -378,6 +381,7 @@ fn display_board(board: &Board) {
 #[derive(Clone)]
 struct Algorithm {
     cells: Vec<Cell>,
+    arranged_cells: Vec<Cell>,
 }
 
 struct Board {

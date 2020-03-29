@@ -122,9 +122,10 @@ fn generate_algorithm() -> Algorithm {
 }
 
 fn evaluate_algorithm(algorithm: &Algorithm) -> usize {
+    let original_board = fill_board(&algorithm.cells);
     let mut board = fill_board(&algorithm.cells);
     let clusters = extract_clusters(&mut board);
-    let error_number = count_non_matching_tiles(&board) + clusters.len() - 1;
+    let error_number = count_non_matching_tiles(&original_board) + clusters.len() - 1;
     error_number
 }
 

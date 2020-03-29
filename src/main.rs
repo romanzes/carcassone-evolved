@@ -78,9 +78,9 @@ const CARDS: [Card; 72] = [
     Card { sides: [ROAD, ROAD, ROAD, ROAD] },
 ];
 
-const FIELD_SIZE: usize = 30;
-const POPULATION_SIZE: usize = 300;
-const MUTATION_CHANCE: f64 = 0.1;
+const FIELD_SIZE: usize = 15;
+const POPULATION_SIZE: usize = 50;
+const MUTATION_CHANCE: f64 = 0.5;
 
 fn main() {
     let mut population: Vec<Algorithm> = (0..POPULATION_SIZE).map(|_| generate_algorithm()).collect();

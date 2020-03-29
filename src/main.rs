@@ -90,7 +90,7 @@ fn main() {
     let rated_algs: Vec<Algorithm> = rated_algs.into_iter().map(|(_, alg)| alg).collect();
     population = next_generation(&rated_algs);
     println!("best result: {}", best_result);
-    while best_result > 1 {
+    while best_result > 0 {
         let mut rated_algs: Vec<(usize, Algorithm)> = population.into_iter().map(|algorithm| (evaluate_algorithm(&algorithm), algorithm)).collect();
         rated_algs.sort_by_key(|(score, _)| *score);
         let (new_best_result, new_best_alg) = rated_algs[0].clone();
@@ -124,7 +124,8 @@ fn generate_algorithm() -> Algorithm {
 fn evaluate_algorithm(algorithm: &Algorithm) -> usize {
     let mut board = fill_board(&algorithm.cells);
     let clusters = extract_clusters(&mut board);
-    clusters.len()
+    let error_number = count_non_matching_tiles(&board) + clusters.len() - 1;
+    error_number
 }
 
 fn fill_board(cells: &Vec<Cell>) -> Board {
@@ -152,6 +153,25 @@ fn extract_clusters(board: &mut Board) -> Vec<Cluster> {
         }
     }
     return result;
+}
+
+fn count_non_matching_tiles(board: &Board) -> usize {
+    let mut result = 0;
+    for x in 0..FIELD_SIZE - 1 {
+        for y in 0..FIELD_SIZE {
+            if let (Some(cell1), Some(cell2)) = (board.cells[x][y], board.cells[x + 1][y]) {
+                if cell1.right() != cell2.left() { result += 1; }
+            }
+        }
+    }
+    for x in 0..FIELD_SIZE {
+        for y in 0..FIELD_SIZE - 1 {
+            if let (Some(cell1), Some(cell2)) = (board.cells[x][y], board.cells[x][y + 1]) {
+                if cell1.bottom() != cell2.top() { result += 1; }
+            }
+        }
+    }
+    result
 }
 
 fn get_leaves(board: &Board, cells: &Vec<Cell>) -> Vec<Cell> {
@@ -313,6 +333,24 @@ struct Cell {
     card_side: usize,
 }
 
+impl Cell {
+    fn left(&self) -> TerrainType {
+        self.card.sides[self.card_side]
+    }
+
+    fn top(&self) -> TerrainType {
+        self.card.sides[self.card_side + 1]
+    }
+
+    fn right(&self) -> TerrainType {
+        self.card.sides[self.card_side + 2]
+    }
+
+    fn bottom(&self) -> TerrainType {
+        self.card.sides[self.card_side + 3]
+    }
+}
+
 #[derive(Copy, Clone, Eq, PartialEq, Hash)]
 struct Pos {
     x: usize,
@@ -324,7 +362,7 @@ struct Card {
     sides: [TerrainType; 4],
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq)]
 enum TerrainType {
     ROAD,
     FIELD,

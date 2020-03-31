@@ -2,6 +2,7 @@ use rand::Rng;
 use TerrainType::*;
 use std::collections::HashSet;
 use rand::prelude::ThreadRng;
+use serde_derive::{Serialize, Deserialize};
 
 const CARDS: [Card; 72] = [
     Card { sides: [FIELD, FIELD, FIELD, FIELD] },
@@ -102,6 +103,8 @@ fn main() {
     }
     let board = fill_board(&best_alg.arranged_cells);
     display_board(&board);
+    let serialized = serde_json::to_string(&board).unwrap();
+    println!("{:?}", serialized);
 }
 
 fn generate_algorithm() -> Algorithm {
@@ -384,6 +387,7 @@ struct Algorithm {
     arranged_cells: Vec<Cell>,
 }
 
+#[derive(Serialize, Deserialize)]
 struct Board {
     cells: [[Option<Cell>; FIELD_SIZE]; FIELD_SIZE]
 }
@@ -392,7 +396,7 @@ struct Cluster {
     cells: Vec<Cell>,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 struct Cell {
     pos: Pos,
     card: Card,
@@ -445,18 +449,18 @@ fn bottom_side(cell: &Option<Cell>) -> TerrainType {
     }
 }
 
-#[derive(Copy, Clone, Eq, PartialEq, Hash)]
+#[derive(Copy, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
 struct Pos {
     x: usize,
     y: usize,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 struct Card {
     sides: [TerrainType; 4],
 }
 
-#[derive(Copy, Clone, PartialEq)]
+#[derive(Copy, Clone, PartialEq, Serialize, Deserialize)]
 enum TerrainType {
     ROAD,
     FIELD,

@@ -4,11 +4,12 @@ use std::collections::HashSet;
 use rand::prelude::ThreadRng;
 use serde_derive::{Serialize, Deserialize};
 
-const CARDS: [Card; 72] = [
-    Card { sides: [FIELD, FIELD, FIELD, FIELD] },
-    Card { sides: [FIELD, FIELD, FIELD, FIELD] },
-    Card { sides: [FIELD, FIELD, FIELD, FIELD] },
-    Card { sides: [FIELD, FIELD, FIELD, FIELD] },
+const CARDS: [Card; 68] = [
+    // TODO uncomment monasteries when there is better visualisation
+    // Card { sides: [FIELD, FIELD, FIELD, FIELD] },
+    // Card { sides: [FIELD, FIELD, FIELD, FIELD] },
+    // Card { sides: [FIELD, FIELD, FIELD, FIELD] },
+    // Card { sides: [FIELD, FIELD, FIELD, FIELD] },
     Card { sides: [FIELD, FIELD, FIELD, TOWN] },
     Card { sides: [FIELD, FIELD, FIELD, TOWN] },
     Card { sides: [FIELD, FIELD, FIELD, TOWN] },

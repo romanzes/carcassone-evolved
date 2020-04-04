@@ -130,8 +130,10 @@ fn evaluate_algorithm(algorithm: &Algorithm) -> usize {
     let original_board = fill_board(&algorithm.arranged_cells);
     let mut board = fill_board(&algorithm.arranged_cells);
     let clusters = extract_clusters(&mut board);
-    let error_number = count_non_matching_tiles(&original_board) + clusters.len() - 1;
-    error_number
+    let clusters = (clusters.len() - 1);
+    let unclosed_town_parts = count_unclosed_town_parts(&original_board);
+    let non_matching_tiles = count_non_matching_tiles(&original_board);
+    clusters + unclosed_town_parts + non_matching_tiles
 }
 
 fn fill_board(cells: &Vec<Cell>) -> Board {
@@ -230,6 +232,45 @@ fn next_generation(rated_algorithms: &Vec<Algorithm>) -> Vec<Algorithm> {
 fn select_index(rng: &mut ThreadRng) -> usize {
     let rand: f64 = rng.gen_range(0.0, 1.0);
     ((1.0 - ((1.0 - rand).sqrt())) * POPULATION_SIZE as f64) as usize
+}
+
+fn count_unclosed_town_parts(board: &Board) -> usize {
+    let mut result = 0;
+    for x in 0..FIELD_SIZE {
+        if top_side(&board.cells[x][0]) == TerrainType::TOWN {
+            result += 1;
+        }
+        if bottom_side(&board.cells[x][FIELD_SIZE - 1]) == TerrainType::TOWN {
+            result += 1;
+        }
+    }
+    for y in 0..FIELD_SIZE {
+        if left_side(&board.cells[0][y]) == TerrainType::TOWN {
+            result += 1;
+        }
+        if right_side(&board.cells[FIELD_SIZE - 1][y]) == TerrainType::TOWN {
+            result += 1;
+        }
+    }
+    for x in 0..FIELD_SIZE - 1 {
+        for y in 0..FIELD_SIZE {
+            if xor(right_side(&board.cells[x][y]) == TerrainType::TOWN, left_side(&board.cells[x + 1][y]) == TerrainType::TOWN) {
+                result += 1;
+            }
+        }
+    }
+    for x in 0..FIELD_SIZE {
+        for y in 0..FIELD_SIZE - 1 {
+            if xor(bottom_side(&board.cells[x][y]) == TerrainType::TOWN, top_side(&board.cells[x][y + 1]) == TerrainType::TOWN) {
+                result += 1;
+            }
+        }
+    }
+    result
+}
+
+fn xor(a: bool, b: bool) -> bool {
+    (a && !b) || (b && !a)
 }
 
 fn breed(algorithm1: &Algorithm, algorithm2: &Algorithm) -> Algorithm {

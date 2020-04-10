@@ -11,3 +11,15 @@ rand = "0.7.3"
 serde = "1.0.105"
 serde_derive = "1.0.105"
 serde_json = "1.0.50"
+
+[dependencies.gtk]
+version = "0.8.0"
+features = ["v3_16"]
+
+[dependencies.gio]
+version = ""
+features = ["v2_44"]
+
+[dependencies.glib]
+version = ""
+features = ["v2_46"]

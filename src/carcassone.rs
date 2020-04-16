@@ -2,97 +2,97 @@ use TerrainType::*;
 use rand::prelude::ThreadRng;
 use std::collections::HashSet;
 use serde_derive::{Serialize, Deserialize};
-use glib::Sender;
 use rand::Rng;
+use glib::Sender;
 
-const CARDS: [Card; 68] = [
+pub const CARDS: [Card; 68] = [
     // TODO uncomment monasteries when there is better visualisation
     // Card { sides: [FIELD, FIELD, FIELD, FIELD] },
     // Card { sides: [FIELD, FIELD, FIELD, FIELD] },
     // Card { sides: [FIELD, FIELD, FIELD, FIELD] },
     // Card { sides: [FIELD, FIELD, FIELD, FIELD] },
-    Card { sides: [FIELD, FIELD, FIELD, TOWN] },
-    Card { sides: [FIELD, FIELD, FIELD, TOWN] },
-    Card { sides: [FIELD, FIELD, FIELD, TOWN] },
-    Card { sides: [FIELD, FIELD, FIELD, TOWN] },
-    Card { sides: [FIELD, FIELD, FIELD, TOWN] },
+    Card { sides: [FIELD, TOWN, FIELD, FIELD] },
+    Card { sides: [FIELD, TOWN, FIELD, FIELD] },
+    Card { sides: [FIELD, TOWN, FIELD, FIELD] },
+    Card { sides: [FIELD, TOWN, FIELD, FIELD] },
+    Card { sides: [FIELD, TOWN, FIELD, FIELD] },
     Card { sides: [TOWN, FIELD, TOWN, FIELD] },
     Card { sides: [TOWN, FIELD, TOWN, FIELD] },
     Card { sides: [TOWN, FIELD, TOWN, FIELD] },
     Card { sides: [TOWN, FIELD, TOWN, FIELD] },
-    Card { sides: [FIELD, FIELD, TOWN, TOWN] },
-    Card { sides: [FIELD, FIELD, TOWN, TOWN] },
-    Card { sides: [FIELD, FIELD, TOWN, TOWN] },
-    Card { sides: [FIELD, FIELD, TOWN, TOWN] },
-    Card { sides: [FIELD, FIELD, TOWN, TOWN] },
+    Card { sides: [TOWN, TOWN, FIELD, FIELD] },
+    Card { sides: [TOWN, TOWN, FIELD, FIELD] },
+    Card { sides: [TOWN, TOWN, FIELD, FIELD] },
+    Card { sides: [TOWN, TOWN, FIELD, FIELD] },
+    Card { sides: [TOWN, TOWN, FIELD, FIELD] },
+    Card { sides: [TOWN, TOWN, FIELD, FIELD] },
+    Card { sides: [TOWN, TOWN, FIELD, FIELD] },
     Card { sides: [TOWN, FIELD, TOWN, FIELD] },
     Card { sides: [TOWN, FIELD, TOWN, FIELD] },
-    Card { sides: [FIELD, FIELD, TOWN, TOWN] },
-    Card { sides: [FIELD, FIELD, TOWN, TOWN] },
-    Card { sides: [FIELD, TOWN, TOWN, TOWN] },
-    Card { sides: [FIELD, TOWN, TOWN, TOWN] },
-    Card { sides: [FIELD, TOWN, TOWN, TOWN] },
-    Card { sides: [FIELD, TOWN, TOWN, TOWN] },
+    Card { sides: [TOWN, TOWN, TOWN, FIELD] },
+    Card { sides: [TOWN, TOWN, TOWN, FIELD] },
+    Card { sides: [TOWN, TOWN, TOWN, FIELD] },
+    Card { sides: [TOWN, TOWN, TOWN, FIELD] },
     Card { sides: [TOWN, TOWN, TOWN, TOWN] },
-    Card { sides: [ROAD, FIELD, FIELD, FIELD] },
-    Card { sides: [ROAD, FIELD, FIELD, FIELD] },
-    Card { sides: [ROAD, TOWN, TOWN, TOWN] },
-    Card { sides: [ROAD, TOWN, TOWN, TOWN] },
-    Card { sides: [ROAD, TOWN, TOWN, TOWN] },
-    Card { sides: [ROAD, FIELD, ROAD, FIELD] },
-    Card { sides: [ROAD, FIELD, ROAD, FIELD] },
-    Card { sides: [ROAD, FIELD, ROAD, FIELD] },
-    Card { sides: [ROAD, FIELD, ROAD, FIELD] },
-    Card { sides: [ROAD, FIELD, ROAD, FIELD] },
-    Card { sides: [ROAD, FIELD, ROAD, FIELD] },
-    Card { sides: [ROAD, FIELD, ROAD, FIELD] },
-    Card { sides: [ROAD, FIELD, ROAD, FIELD] },
-    Card { sides: [ROAD, FIELD, ROAD, TOWN] },
-    Card { sides: [ROAD, FIELD, ROAD, TOWN] },
-    Card { sides: [ROAD, FIELD, ROAD, TOWN] },
-    Card { sides: [ROAD, FIELD, ROAD, TOWN] },
-    Card { sides: [ROAD, ROAD, TOWN, TOWN] },
-    Card { sides: [ROAD, ROAD, TOWN, TOWN] },
-    Card { sides: [ROAD, ROAD, TOWN, TOWN] },
-    Card { sides: [ROAD, ROAD, TOWN, TOWN] },
-    Card { sides: [ROAD, ROAD, TOWN, TOWN] },
-    Card { sides: [ROAD, ROAD, FIELD, FIELD] },
-    Card { sides: [ROAD, ROAD, FIELD, FIELD] },
-    Card { sides: [ROAD, ROAD, FIELD, FIELD] },
-    Card { sides: [ROAD, ROAD, FIELD, FIELD] },
-    Card { sides: [ROAD, ROAD, FIELD, FIELD] },
-    Card { sides: [ROAD, ROAD, FIELD, FIELD] },
-    Card { sides: [ROAD, ROAD, FIELD, FIELD] },
-    Card { sides: [ROAD, ROAD, FIELD, FIELD] },
-    Card { sides: [ROAD, ROAD, FIELD, FIELD] },
-    Card { sides: [ROAD, ROAD, TOWN, FIELD] },
-    Card { sides: [ROAD, ROAD, TOWN, FIELD] },
-    Card { sides: [ROAD, ROAD, TOWN, FIELD] },
-    Card { sides: [ROAD, ROAD, FIELD, TOWN] },
-    Card { sides: [ROAD, ROAD, FIELD, TOWN] },
-    Card { sides: [ROAD, ROAD, FIELD, TOWN] },
-    Card { sides: [ROAD, ROAD, ROAD, FIELD] },
-    Card { sides: [ROAD, ROAD, ROAD, FIELD] },
-    Card { sides: [ROAD, ROAD, ROAD, FIELD] },
-    Card { sides: [ROAD, ROAD, ROAD, FIELD] },
-    Card { sides: [ROAD, ROAD, ROAD, TOWN] },
-    Card { sides: [ROAD, ROAD, ROAD, TOWN] },
-    Card { sides: [ROAD, ROAD, ROAD, TOWN] },
+    Card { sides: [FIELD, FIELD, FIELD, ROAD] },
+    Card { sides: [FIELD, FIELD, FIELD, ROAD] },
+    Card { sides: [TOWN, TOWN, TOWN, ROAD] },
+    Card { sides: [TOWN, TOWN, TOWN, ROAD] },
+    Card { sides: [TOWN, TOWN, TOWN, ROAD] },
+    Card { sides: [FIELD, ROAD, FIELD, ROAD] },
+    Card { sides: [FIELD, ROAD, FIELD, ROAD] },
+    Card { sides: [FIELD, ROAD, FIELD, ROAD] },
+    Card { sides: [FIELD, ROAD, FIELD, ROAD] },
+    Card { sides: [FIELD, ROAD, FIELD, ROAD] },
+    Card { sides: [FIELD, ROAD, FIELD, ROAD] },
+    Card { sides: [FIELD, ROAD, FIELD, ROAD] },
+    Card { sides: [FIELD, ROAD, FIELD, ROAD] },
+    Card { sides: [ROAD, TOWN, ROAD, FIELD] },
+    Card { sides: [ROAD, TOWN, ROAD, FIELD] },
+    Card { sides: [ROAD, TOWN, ROAD, FIELD] },
+    Card { sides: [ROAD, TOWN, ROAD, FIELD] },
+    Card { sides: [TOWN, TOWN, ROAD, ROAD] },
+    Card { sides: [TOWN, TOWN, ROAD, ROAD] },
+    Card { sides: [TOWN, TOWN, ROAD, ROAD] },
+    Card { sides: [TOWN, TOWN, ROAD, ROAD] },
+    Card { sides: [TOWN, TOWN, ROAD, ROAD] },
+    Card { sides: [ROAD, FIELD, FIELD, ROAD] },
+    Card { sides: [ROAD, FIELD, FIELD, ROAD] },
+    Card { sides: [ROAD, FIELD, FIELD, ROAD] },
+    Card { sides: [ROAD, FIELD, FIELD, ROAD] },
+    Card { sides: [ROAD, FIELD, FIELD, ROAD] },
+    Card { sides: [ROAD, FIELD, FIELD, ROAD] },
+    Card { sides: [ROAD, FIELD, FIELD, ROAD] },
+    Card { sides: [ROAD, FIELD, FIELD, ROAD] },
+    Card { sides: [ROAD, FIELD, FIELD, ROAD] },
+    Card { sides: [ROAD, TOWN, FIELD, ROAD] },
+    Card { sides: [ROAD, TOWN, FIELD, ROAD] },
+    Card { sides: [ROAD, TOWN, FIELD, ROAD] },
+    Card { sides: [FIELD, TOWN, ROAD, ROAD] },
+    Card { sides: [FIELD, TOWN, ROAD, ROAD] },
+    Card { sides: [FIELD, TOWN, ROAD, ROAD] },
+    Card { sides: [ROAD, FIELD, ROAD, ROAD] },
+    Card { sides: [ROAD, FIELD, ROAD, ROAD] },
+    Card { sides: [ROAD, FIELD, ROAD, ROAD] },
+    Card { sides: [ROAD, FIELD, ROAD, ROAD] },
+    Card { sides: [ROAD, TOWN, ROAD, ROAD] },
+    Card { sides: [ROAD, TOWN, ROAD, ROAD] },
+    Card { sides: [ROAD, TOWN, ROAD, ROAD] },
     Card { sides: [ROAD, ROAD, ROAD, ROAD] },
 ];
 
-const FIELD_SIZE: usize = 15;
+pub const FIELD_SIZE: usize = 15;
 const POPULATION_SIZE: usize = 50;
 const MUTATION_CHANCE: f64 = 0.5;
 
-pub fn start_evolution(sender: Sender<Option<usize>>) {
+pub fn start_evolution(sender: &Sender<(usize, Board)>) {
     let mut population: Vec<Algorithm> = (0..POPULATION_SIZE).map(|_| generate_algorithm()).collect();
     let mut rated_algs: Vec<(usize, Algorithm)> = population.into_iter().map(|algorithm| (evaluate_algorithm(&algorithm), algorithm)).collect();
     rated_algs.sort_by_key(|(score, _)| *score);
     let (mut best_result, mut best_alg) = rated_algs[0].clone();
     let rated_algs: Vec<Algorithm> = rated_algs.into_iter().map(|(_, alg)| alg).collect();
     population = next_generation(&rated_algs);
-    sender.send(Some(best_result));
+    update_board(sender, best_result, &best_alg);
     println!("best result: {}", best_result);
     while best_result > 0 {
         let mut rated_algs: Vec<(usize, Algorithm)> = population.into_iter().map(|algorithm| (evaluate_algorithm(&algorithm), algorithm)).collect();
@@ -102,14 +102,18 @@ pub fn start_evolution(sender: Sender<Option<usize>>) {
         population = next_generation(&rated_algs);
         best_result = new_best_result;
         best_alg = new_best_alg;
-        sender.send(Some(best_result));
+        update_board(sender, best_result, &best_alg);
         println!("best result: {}", best_result);
     }
     let board = fill_board(&best_alg.arranged_cells);
     display_board(&board);
     let serialized = serde_json::to_string(&board).unwrap();
-    sender.send(None);
     println!("{:?}", serialized);
+}
+
+fn update_board(sender: &Sender<(usize, Board)>, score: usize, algorithm: &Algorithm) {
+    let board = fill_board(&algorithm.arranged_cells);
+    sender.send((score, board));
 }
 
 fn generate_algorithm() -> Algorithm {
@@ -433,20 +437,20 @@ struct Algorithm {
     arranged_cells: Vec<Cell>,
 }
 
-#[derive(Serialize, Deserialize)]
-struct Board {
-    cells: [[Option<Cell>; FIELD_SIZE]; FIELD_SIZE]
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Board {
+    pub cells: [[Option<Cell>; FIELD_SIZE]; FIELD_SIZE]
 }
 
 struct Cluster {
     cells: Vec<Cell>,
 }
 
-#[derive(Copy, Clone, Serialize, Deserialize)]
-struct Cell {
+#[derive(Copy, Clone, Debug, Serialize, Deserialize)]
+pub struct Cell {
     pos: Pos,
-    card: Card,
-    card_side: usize,
+    pub card: Card,
+    pub card_side: usize,
 }
 
 impl Cell {
@@ -495,20 +499,32 @@ fn bottom_side(cell: &Option<Cell>) -> TerrainType {
     }
 }
 
-#[derive(Copy, Clone, Eq, PartialEq, Hash, Serialize, Deserialize)]
+#[derive(Copy, Clone, Eq, PartialEq, Hash, Debug, Serialize, Deserialize)]
 struct Pos {
     x: usize,
     y: usize,
 }
 
-#[derive(Copy, Clone, Serialize, Deserialize)]
-struct Card {
-    sides: [TerrainType; 4],
+#[derive(Copy, Clone, Eq, PartialEq, Hash, Debug, Serialize, Deserialize)]
+pub struct Card {
+    pub sides: [TerrainType; 4],
 }
 
-#[derive(Copy, Clone, PartialEq, Serialize, Deserialize)]
-enum TerrainType {
+#[derive(Copy, Clone, Eq, PartialEq, Hash, Debug, Serialize, Deserialize)]
+pub enum TerrainType {
     ROAD,
     FIELD,
     TOWN,
+}
+
+impl std::fmt::Display for TerrainType {
+    // This trait requires `fmt` with this exact signature.
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        let str = match self {
+            TOWN => "town".to_owned(),
+            ROAD => "road".to_owned(),
+            FIELD => "field".to_owned(),
+        };
+        write!(f, "{}", str)
+    }
 }

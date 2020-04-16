@@ -61,6 +61,9 @@ dependencies = [
 name = "carcassone"
 version = "0.1.0"
 dependencies = [
+ "cairo-rs",
+ "gdk",
+ "gdk-pixbuf",
  "gio",
  "glib",
  "gtk",

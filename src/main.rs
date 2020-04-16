@@ -1,130 +1,130 @@
 mod carcassone;
 
 use gio::prelude::*;
-use glib::clone;
 use gtk::prelude::*;
-use std::cell::{Cell as StdCell, RefCell};
-use std::env::args;
+use std::cell::RefCell;
 use std::rc::Rc;
-use std::thread;
-use crate::carcassone::start_evolution;
+use crate::carcassone::{start_evolution, Board, FIELD_SIZE, CARDS, Card};
+use std::collections::HashMap;
+use gio::ApplicationFlags;
+use gdk_pixbuf::Pixbuf;
+use cairo::ImageSurface;
+use gdk::prelude::GdkContextExt;
+use std::f64::consts::PI;
+use std::borrow::Borrow;
 
 const PROGRAM_NAME: &str = "Carcassone Evolved";
+const SCALE: f64 = 0.5;
+const WINDOW_SIZE: i32 = 645;
 
 fn main() {
-    glib::set_program_name(Some(PROGRAM_NAME));
-
-    let application = gtk::Application::new(
+    let app = gtk::Application::new(
         Some("com.romanzes.carcassone"),
-        gio::ApplicationFlags::empty(),
-    )
-        .expect("initialization failed");
+        ApplicationFlags::HANDLES_OPEN | ApplicationFlags::NON_UNIQUE,
+    ).unwrap();
+    app.connect_startup(build_ui);
+    app.connect_activate(|_| ());
+    app.run(&std::env::args().collect::<Vec<_>>());
+}
 
-    application.connect_startup(|app| {
-        let application = Application::new(app);
+fn build_ui(app: &gtk::Application) {
+    let window = gtk::ApplicationWindow::new(app);
 
-        let application_container = RefCell::new(Some(application));
-        app.connect_shutdown(move |_| {
-            let application = application_container
-                .borrow_mut()
-                .take()
-                .expect("Shutdown called multiple times");
-            drop(application);
-        });
+    let card_images = CARDS.iter().map(|card| {
+        let file_name = format!("./resources/{}-{}-{}-{}.png", card.sides[0], card.sides[1], card.sides[2], card.sides[3]);
+        let image = Pixbuf::new_from_file(file_name).unwrap();
+        (card.clone(), image)
+    }).collect::<HashMap<Card, Pixbuf>>();
+    let state: Rc<State> = Rc::new(State {
+        app: app.clone(),
+        window: window.clone(),
+        canvas_surface: RefCell::new(CanvasSurface::new(card_images)),
     });
 
-    application.connect_activate(|_| {});
-    application.run(&args().collect::<Vec<_>>());
+    window.set_title(PROGRAM_NAME);
+    window.set_default_size(WINDOW_SIZE, WINDOW_SIZE);
+    let drawing_area = build_drawing_area(&state);
+    window.add(&drawing_area);
+
+    window.show_all();
+
+    let (tx, rx) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
+    std::thread::spawn(move || {
+        start_evolution(&tx);
+    });
+
+    rx.attach(None, move |(score, board)| {
+        state.window.borrow().set_title(format!("{}: {}", PROGRAM_NAME, score).as_str());
+        state.canvas_surface.borrow_mut().update(score, board);
+        drawing_area.queue_draw();
+        Continue(true)
+    });
 }
 
-pub struct Application {
-    pub widgets: Rc<Widgets>,
-}
-
-impl Application {
-    pub fn new(app: &gtk::Application) -> Self {
-        let app = Application {
-            widgets: Rc::new(Widgets::new(app)),
-        };
-
-        app.connect_progress();
-
-        app
-    }
-
-    fn connect_progress(&self) {
-        let active = Rc::new(StdCell::new(false));
-        let on_click = move |widgets: Rc<Widgets>| {
-            if active.get() {
-                return;
-            }
-
-            active.set(true);
-
-            let (tx, rx) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
-            thread::spawn(move || {
-                start_evolution(tx);
-            });
-
-            let active = active.clone();
-            let widgets = widgets.clone();
-            rx.attach(None, move |value| match value {
-                Some(value) => {
-                    widgets
-                        .progress
-                        .set_text(format!("{}", value).as_str());
-
-                    glib::Continue(true)
-                }
-                None => {
-                    active.set(false);
-                    glib::Continue(false)
-                }
-            });
-        };
-        self.widgets.button.connect_clicked(
-            clone!(@weak self.widgets as widgets => move |_| on_click(widgets)),
-        );
-    }
-}
-
-pub struct Widgets {
-    pub container: gtk::Grid,
-    pub progress: gtk::Label,
-    pub button: gtk::Button,
-}
-
-impl Widgets {
-    pub fn new(application: &gtk::Application) -> Self {
-        let progress = gtk::Label::new(Some("Not started"));
-        progress.set_hexpand(true);
-
-        let button = gtk::Button::new();
-        button.set_label("start");
-        button.set_halign(gtk::Align::Center);
-
-        let container = gtk::Grid::new();
-        container.attach(&progress, 0, 0, 1, 1);
-        container.attach(&button, 0, 1, 1, 1);
-        container.set_row_spacing(12);
-        container.set_border_width(6);
-        container.set_vexpand(true);
-        container.set_hexpand(true);
-
-        let window = gtk::ApplicationWindow::new(application);
-        window.set_property_window_position(gtk::WindowPosition::Center);
-        window.set_title(PROGRAM_NAME);
-        window.add(&container);
-        window.show_all();
-        window.connect_delete_event(move |window, _| {
-            window.destroy();
+fn build_drawing_area(state: &Rc<State>) -> gtk::DrawingArea {
+    let area = gtk::DrawingArea::new();
+    area.set_size_request(WINDOW_SIZE, WINDOW_SIZE);
+    area.connect_draw({
+        let state = state.clone();
+        move |_, context| {
+            state.canvas_surface.borrow().draw(&context);
             Inhibit(false)
-        });
+        }
+    });
 
-        Widgets {
-            container,
-            progress,
-            button
+    area.show_all();
+    area
+}
+
+#[derive(Debug)]
+pub struct State {
+    app: gtk::Application,
+    window: gtk::ApplicationWindow,
+    pub canvas_surface: RefCell<CanvasSurface>,
+}
+
+#[derive(Debug)]
+pub struct CanvasSurface {
+    score: usize,
+    board: Board,
+    card_images: HashMap<Card, Pixbuf>,
+    surface: ImageSurface,
+}
+
+impl CanvasSurface {
+    pub fn new(card_images: HashMap<Card, Pixbuf>) -> CanvasSurface {
+        let surface = cairo::ImageSurface::create(cairo::Format::ARgb32, WINDOW_SIZE, WINDOW_SIZE).unwrap();
+        CanvasSurface {
+            score: 0,
+            board: Board { cells: [[None; FIELD_SIZE]; FIELD_SIZE] },
+            card_images,
+            surface,
+        }
+    }
+
+    pub fn update(&mut self, score: usize, board: Board) {
+        self.score = score;
+        self.board = board;
+    }
+
+    pub fn draw(&self, context: &cairo::Context) {
+        context.scale(SCALE, SCALE);
+        context.set_source_rgb(1.0, 1.0, 1.0);
+        context.paint();
+        context.fill();
+        for x in 0..FIELD_SIZE {
+            for y in 0..FIELD_SIZE {
+                if let Some(cell) = self.board.cells[x][y] {
+                    let image = &self.card_images[&cell.card];
+                    context.save();
+                    context.translate((x as f64 + 0.5) * 86.0, (y as f64 + 0.5) * 86.0);
+                    context.rotate(cell.card_side as f64 * PI / 2.0);
+                    context.set_source_pixbuf(image, -43.0, -43.0);
+                    context.paint();
+                    context.fill();
+                    context.restore();
+                }
+            }
         }
     }
 }

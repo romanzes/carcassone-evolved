@@ -1,10 +1,12 @@
 mod carcassone;
+mod evolution;
+mod cards;
+mod model;
 
 use gio::prelude::*;
 use gtk::prelude::*;
 use std::cell::RefCell;
 use std::rc::Rc;
-use crate::carcassone::{start_evolution, Board, FIELD_SIZE, CARDS, Card};
 use std::collections::HashMap;
 use gio::ApplicationFlags;
 use gdk_pixbuf::Pixbuf;
@@ -12,6 +14,9 @@ use cairo::ImageSurface;
 use gdk::prelude::GdkContextExt;
 use std::f64::consts::PI;
 use std::borrow::Borrow;
+use crate::cards::CARDS;
+use crate::model::{Card, Board};
+use crate::evolution::{FIELD_SIZE, start_evolution};
 
 const PROGRAM_NAME: &str = "Carcassone Evolved";
 const SCALE: f64 = 0.5;

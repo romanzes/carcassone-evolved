@@ -16,7 +16,7 @@ use std::f64::consts::PI;
 use std::borrow::Borrow;
 use crate::cards::CARDS;
 use crate::model::{Card, Board};
-use crate::evolution::{FIELD_SIZE, start_evolution};
+use crate::evolution::{start_evolution, create_empty_board};
 
 const PROGRAM_NAME: &str = "Carcassone Evolved";
 const SCALE: f64 = 0.5;
@@ -101,7 +101,7 @@ impl CanvasSurface {
         let surface = cairo::ImageSurface::create(cairo::Format::ARgb32, WINDOW_SIZE, WINDOW_SIZE).unwrap();
         CanvasSurface {
             score: 0,
-            board: Board { cells: [[None; FIELD_SIZE]; FIELD_SIZE] },
+            board: create_empty_board(),
             card_images,
             surface,
         }
@@ -117,8 +117,8 @@ impl CanvasSurface {
         context.set_source_rgb(1.0, 1.0, 1.0);
         context.paint();
         context.fill();
-        for x in 0..FIELD_SIZE {
-            for y in 0..FIELD_SIZE {
+        for x in 0..self.board.width {
+            for y in 0..self.board.height {
                 if let Some(cell) = self.board.cells[x][y] {
                     let image = &self.card_images[&cell.card];
                     context.save();

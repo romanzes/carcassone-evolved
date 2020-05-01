@@ -5,9 +5,9 @@ use rand::Rng;
 use crate::carcassone::{evaluate_algorithm, fill_board};
 use glib::Sender;
 
-pub const FIELD_SIZE: usize = 15;
-pub const POPULATION_SIZE: usize = 50;
-pub const MUTATION_CHANCE: f64 = 0.5;
+const FIELD_SIZE: usize = 15;
+const POPULATION_SIZE: usize = 50;
+const MUTATION_CHANCE: f64 = 0.5;
 
 pub fn start_evolution(sender: &Sender<(usize, Board)>) {
     let mut population: Vec<Algorithm> = (0..POPULATION_SIZE).map(|_| generate_algorithm()).collect();
@@ -33,6 +33,14 @@ pub fn start_evolution(sender: &Sender<(usize, Board)>) {
     display_board(&board);
     let serialized = serde_json::to_string(&board).unwrap();
     println!("{:?}", serialized);
+}
+
+pub fn create_empty_board() -> Board {
+    Board {
+        width: FIELD_SIZE,
+        height: FIELD_SIZE,
+        cells: vec![vec![None; FIELD_SIZE]; FIELD_SIZE],
+    }
 }
 
 fn update_board(sender: &Sender<(usize, Board)>, score: usize, algorithm: &Algorithm) {
@@ -105,7 +113,7 @@ fn mutate(rng: &mut ThreadRng, cells: &mut Vec<Cell>) {
 }
 
 fn rearrange_overlaps(cells: &Vec<Cell>) -> Vec<Cell> {
-    let mut board = Board { cells: [[None; FIELD_SIZE]; FIELD_SIZE] };
+    let mut board = create_empty_board();
     let mut cells = cells.clone();
     for index in 0..cells.len() {
         let cell = cells[index];
@@ -162,13 +170,13 @@ pub struct Algorithm {
 }
 
 fn display_board(board: &Board) {
-    for y in 0..FIELD_SIZE {
-        for _ in 0..FIELD_SIZE {
+    for y in 0..board.height {
+        for _ in 0..board.width {
             print!("┼──────────");
         }
         println!();
 
-        for x in 0..FIELD_SIZE {
+        for x in 0..board.width {
             let side = match top_side(&board.cells[x][y]) {
                 TerrainType::FIELD => "          ",
                 TerrainType::ROAD => "    ██    ",
@@ -178,7 +186,7 @@ fn display_board(board: &Board) {
         }
         println!();
 
-        for x in 0..FIELD_SIZE {
+        for x in 0..board.width {
             let left_side = match left_side(&board.cells[x][y]) {
                 TerrainType::FIELD => "  ",
                 TerrainType::ROAD => "  ",
@@ -193,7 +201,7 @@ fn display_board(board: &Board) {
         }
         println!();
 
-        for x in 0..FIELD_SIZE {
+        for x in 0..board.width {
             let left_side = match left_side(&board.cells[x][y]) {
                 TerrainType::FIELD => "  ",
                 TerrainType::ROAD => "██",
@@ -208,7 +216,7 @@ fn display_board(board: &Board) {
         }
         println!();
 
-        for x in 0..FIELD_SIZE {
+        for x in 0..board.width {
             let left_side = match left_side(&board.cells[x][y]) {
                 TerrainType::FIELD => "  ",
                 TerrainType::ROAD => "  ",
@@ -223,7 +231,7 @@ fn display_board(board: &Board) {
         }
         println!();
 
-        for x in 0..FIELD_SIZE {
+        for x in 0..board.width {
             let side = match bottom_side(&board.cells[x][y]) {
                 TerrainType::FIELD => "          ",
                 TerrainType::ROAD => "    ██    ",

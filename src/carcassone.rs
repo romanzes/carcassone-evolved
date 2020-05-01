@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 use crate::model::{Cell, Board, Pos, top_side, TerrainType, bottom_side, left_side, right_side};
-use crate::evolution::{FIELD_SIZE, Algorithm};
+use crate::evolution::{Algorithm, create_empty_board};
 
 pub fn evaluate_algorithm(algorithm: &Algorithm) -> usize {
     let original_board = fill_board(&algorithm.arranged_cells);
@@ -13,7 +13,7 @@ pub fn evaluate_algorithm(algorithm: &Algorithm) -> usize {
 }
 
 pub fn fill_board(cells: &Vec<Cell>) -> Board {
-    let mut board = Board { cells: [[None; FIELD_SIZE]; FIELD_SIZE] };
+    let mut board = create_empty_board();
     cells.iter().for_each(|cell| {
         board.cells[cell.pos.x][cell.pos.y] = Some(cell.clone());
     });
@@ -22,8 +22,8 @@ pub fn fill_board(cells: &Vec<Cell>) -> Board {
 
 fn extract_clusters(board: &mut Board) -> Vec<Cluster> {
     let mut result = vec![];
-    for x in 0..FIELD_SIZE {
-        for y in 0..FIELD_SIZE {
+    for x in 0..board.width {
+        for y in 0..board.height {
             if let Some(cell) = board.cells[x][y] {
                 let mut cluster_cells = vec![];
                 let mut cells = vec![cell];
@@ -41,15 +41,15 @@ fn extract_clusters(board: &mut Board) -> Vec<Cluster> {
 
 fn count_non_matching_tiles(board: &Board) -> usize {
     let mut result = 0;
-    for x in 0..FIELD_SIZE - 1 {
-        for y in 0..FIELD_SIZE {
+    for x in 0..board.width - 1 {
+        for y in 0..board.height {
             if let (Some(cell1), Some(cell2)) = (board.cells[x][y], board.cells[x + 1][y]) {
                 if cell1.right() != cell2.left() { result += 1; }
             }
         }
     }
-    for x in 0..FIELD_SIZE {
-        for y in 0..FIELD_SIZE - 1 {
+    for x in 0..board.width {
+        for y in 0..board.height - 1 {
             if let (Some(cell1), Some(cell2)) = (board.cells[x][y], board.cells[x][y + 1]) {
                 if cell1.bottom() != cell2.top() { result += 1; }
             }
@@ -80,7 +80,7 @@ fn get_neighbours(board: &Board, pos: &Pos) -> Vec<Pos> {
         (pos.x as i32, pos.y as i32 + 1),
     ]
         .into_iter()
-        .filter(|(x, y)| *x >= 0 && *y >= 0 && *x < FIELD_SIZE as i32 && *y < FIELD_SIZE as i32 && board.cells[*x as usize][*y as usize].is_some())
+        .filter(|(x, y)| *x >= 0 && *y >= 0 && *x < board.width as i32 && *y < board.height as i32 && board.cells[*x as usize][*y as usize].is_some())
         .map(|(x, y)| Pos { x: x as usize, y: y as usize })
         .collect()
 }
@@ -91,31 +91,31 @@ fn remove_cells(board: &mut Board, cells: &Vec<Cell>) {
 
 fn count_unclosed_town_parts(board: &Board) -> usize {
     let mut result = 0;
-    for x in 0..FIELD_SIZE {
+    for x in 0..board.width {
         if top_side(&board.cells[x][0]) == TerrainType::TOWN {
             result += 1;
         }
-        if bottom_side(&board.cells[x][FIELD_SIZE - 1]) == TerrainType::TOWN {
+        if bottom_side(&board.cells[x][board.height - 1]) == TerrainType::TOWN {
             result += 1;
         }
     }
-    for y in 0..FIELD_SIZE {
+    for y in 0..board.height {
         if left_side(&board.cells[0][y]) == TerrainType::TOWN {
             result += 1;
         }
-        if right_side(&board.cells[FIELD_SIZE - 1][y]) == TerrainType::TOWN {
+        if right_side(&board.cells[board.width - 1][y]) == TerrainType::TOWN {
             result += 1;
         }
     }
-    for x in 0..FIELD_SIZE - 1 {
-        for y in 0..FIELD_SIZE {
+    for x in 0..board.width - 1 {
+        for y in 0..board.height {
             if xor(right_side(&board.cells[x][y]) == TerrainType::TOWN, left_side(&board.cells[x + 1][y]) == TerrainType::TOWN) {
                 result += 1;
             }
         }
     }
-    for x in 0..FIELD_SIZE {
-        for y in 0..FIELD_SIZE - 1 {
+    for x in 0..board.width {
+        for y in 0..board.height - 1 {
             if xor(bottom_side(&board.cells[x][y]) == TerrainType::TOWN, top_side(&board.cells[x][y + 1]) == TerrainType::TOWN) {
                 result += 1;
             }

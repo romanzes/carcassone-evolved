@@ -1,10 +1,11 @@
-use crate::evolution::FIELD_SIZE;
 use crate::model::TerrainType::FIELD;
 use serde_derive::{Serialize, Deserialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Board {
-    pub cells: [[Option<Cell>; FIELD_SIZE]; FIELD_SIZE]
+    pub width: usize,
+    pub height: usize,
+    pub cells: Vec<Vec<Option<Cell>>>,
 }
 
 #[derive(Copy, Clone, Debug, Serialize, Deserialize)]

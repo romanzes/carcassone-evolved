@@ -33,59 +33,24 @@ fn main() {
 }
 
 fn build_ui(app: &gtk::Application) {
-    let window = gtk::ApplicationWindow::new(app);
-
-    let card_images = CARDS.iter().map(|card| {
-        let file_name = format!("./resources/{}-{}-{}-{}.png", card.sides[0], card.sides[1], card.sides[2], card.sides[3]);
-        let image = Pixbuf::new_from_file(file_name).unwrap();
-        (card.clone(), image)
-    }).collect::<HashMap<Card, Pixbuf>>();
-    let state: Rc<State> = Rc::new(State {
-        app: app.clone(),
-        window: window.clone(),
-        canvas_surface: RefCell::new(CanvasSurface::new(card_images)),
-    });
-
-    window.set_title(PROGRAM_NAME);
-    window.set_default_size(WINDOW_SIZE, WINDOW_SIZE);
-    let drawing_area = build_drawing_area(&state);
-    window.add(&drawing_area);
-
-    window.show_all();
-
     let (tx, rx) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
     std::thread::spawn(move || {
         start_evolution(&tx);
     });
 
+    let visualizer = GtkVisualizer::new(app);
+
     rx.attach(None, move |(score, board)| {
-        state.window.borrow().set_title(format!("{}: {}", PROGRAM_NAME, score).as_str());
-        state.canvas_surface.borrow_mut().update(score, board);
-        drawing_area.queue_draw();
+        visualizer.display_result(score, board);
         Continue(true)
     });
-}
-
-fn build_drawing_area(state: &Rc<State>) -> gtk::DrawingArea {
-    let area = gtk::DrawingArea::new();
-    area.set_size_request(WINDOW_SIZE, WINDOW_SIZE);
-    area.connect_draw({
-        let state = state.clone();
-        move |_, context| {
-            state.canvas_surface.borrow().draw(&context);
-            Inhibit(false)
-        }
-    });
-
-    area.show_all();
-    area
 }
 
 #[derive(Debug)]
 pub struct State {
     app: gtk::Application,
     window: gtk::ApplicationWindow,
-    pub canvas_surface: RefCell<CanvasSurface>,
+    canvas_surface: RefCell<CanvasSurface>,
 }
 
 #[derive(Debug)]
@@ -131,5 +96,63 @@ impl CanvasSurface {
                 }
             }
         }
+    }
+}
+
+pub trait Visualizer {
+    fn display_result(&self, score: usize, board: Board);
+}
+
+struct GtkVisualizer {
+    state: Rc<State>,
+    drawing_area: gtk::DrawingArea,
+}
+
+impl GtkVisualizer {
+    fn new(app: &gtk::Application) -> GtkVisualizer {
+        let window = gtk::ApplicationWindow::new(app);
+
+        let card_images = CARDS.iter().map(|card| {
+            let file_name = format!("./resources/{}-{}-{}-{}.png", card.sides[0], card.sides[1], card.sides[2], card.sides[3]);
+            let image = Pixbuf::new_from_file(file_name).unwrap();
+            (card.clone(), image)
+        }).collect::<HashMap<Card, Pixbuf>>();
+        let state: Rc<State> = Rc::new(State {
+            app: app.clone(),
+            window: window.clone(),
+            canvas_surface: RefCell::new(CanvasSurface::new(card_images)),
+        });
+
+        state.window.set_title(PROGRAM_NAME);
+        state.window.set_default_size(WINDOW_SIZE, WINDOW_SIZE);
+        let drawing_area = GtkVisualizer::build_drawing_area(&state);
+        state.window.add(&drawing_area);
+
+        state.window.show_all();
+
+        GtkVisualizer { state, drawing_area }
+    }
+
+    fn build_drawing_area(state: &Rc<State>) -> gtk::DrawingArea {
+        let area = gtk::DrawingArea::new();
+        area.set_size_request(WINDOW_SIZE, WINDOW_SIZE);
+        area.connect_draw({
+            let state = state.clone();
+            move |_, context| {
+                state.canvas_surface.borrow().draw(&context);
+                Inhibit(false)
+            }
+        });
+
+        area.show_all();
+        area
+    }
+}
+
+impl Visualizer for GtkVisualizer {
+    fn display_result(&self, score: usize, board: Board) {
+        self.state.window.borrow().set_title(format!("{}: {}", PROGRAM_NAME, score).as_str());
+        self.state.canvas_surface.borrow_mut().update(score, board);
+        self.drawing_area.queue_draw();
     }
 }

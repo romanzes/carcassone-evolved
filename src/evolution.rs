@@ -12,21 +12,15 @@ const MUTATION_CHANCE: f64 = 0.5;
 
 pub fn start_evolution(sender: &Sender<(usize, Board)>) {
     let mut population: Vec<Algorithm> = (0..POPULATION_SIZE).map(|_| generate_algorithm()).collect();
-    let mut rated_algs: Vec<(usize, Algorithm)> = population.into_iter().map(|algorithm| (evaluate_algorithm(&algorithm), algorithm)).collect();
-    rated_algs.sort_by_key(|(score, _)| *score);
-    let (mut best_result, mut best_alg) = rated_algs[0].clone();
-    let rated_algs: Vec<Algorithm> = rated_algs.into_iter().map(|(_, alg)| alg).collect();
-    population = next_generation(&rated_algs);
-    update_board(sender, best_result, &best_alg);
-    while best_result > 0 {
+    let mut result_found = false;
+    while !result_found {
         let mut rated_algs: Vec<(usize, Algorithm)> = population.into_iter().map(|algorithm| (evaluate_algorithm(&algorithm), algorithm)).collect();
         rated_algs.sort_by_key(|(score, _)| *score);
-        let (new_best_result, new_best_alg) = rated_algs[0].clone();
+        let (best_result, best_alg) = rated_algs[0].clone();
         let rated_algs: Vec<Algorithm> = rated_algs.into_iter().map(|(_, alg)| alg).collect();
         population = next_generation(&rated_algs);
-        best_result = new_best_result;
-        best_alg = new_best_alg;
         update_board(sender, best_result, &best_alg);
+        if best_result == 0 { result_found = true; }
     }
 }
 

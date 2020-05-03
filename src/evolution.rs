@@ -10,7 +10,7 @@ const FIELD_SIZE: usize = 15;
 const POPULATION_SIZE: usize = 50;
 const MUTATION_CHANCE: f64 = 0.5;
 
-pub fn start_evolution(sender: &Sender<(usize, Board)>) {
+pub fn start_evolution(sender: &Sender<RatedBoard>) {
     let mut population: Vec<Algorithm> = (0..POPULATION_SIZE).map(|_| generate_algorithm()).collect();
     let mut result_found = false;
     while !result_found {
@@ -19,7 +19,8 @@ pub fn start_evolution(sender: &Sender<(usize, Board)>) {
         let (best_result, best_alg) = rated_algs[0].clone();
         let rated_algs: Vec<Algorithm> = rated_algs.into_iter().map(|(_, alg)| alg).collect();
         population = next_generation(&rated_algs);
-        update_board(sender, best_result, &best_alg);
+        let board = fill_board(&best_alg.arranged_cells);
+        sender.send(RatedBoard { score: best_result, board });
         if best_result == 0 { result_found = true; }
     }
 }
@@ -30,11 +31,6 @@ pub fn create_empty_board() -> Board {
         height: FIELD_SIZE,
         cells: vec![vec![None; FIELD_SIZE]; FIELD_SIZE],
     }
-}
-
-fn update_board(sender: &Sender<(usize, Board)>, score: usize, algorithm: &Algorithm) {
-    let board = fill_board(&algorithm.arranged_cells);
-    sender.send((score, board));
 }
 
 fn generate_algorithm() -> Algorithm {
@@ -95,4 +91,9 @@ fn mutate(rng: &mut ThreadRng, cells: &mut Vec<Cell>) {
             card_side: rng.gen_range(0, 4),
         };
     }
+}
+
+pub struct RatedBoard {
+    pub score: usize,
+    pub board: Board,
 }

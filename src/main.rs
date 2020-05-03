@@ -41,8 +41,8 @@ fn build_ui(app: &gtk::Application) {
 
     let visualizer = GtkVisualizer::new(app);
 
-    rx.attach(None, move |(score, board)| {
-        visualizer.display_result(score, board);
+    rx.attach(None, move |board| {
+        visualizer.display_result(board.score, board.board);
         Continue(true)
     });
 }

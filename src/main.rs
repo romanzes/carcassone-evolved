@@ -1,3 +1,4 @@
+mod algorithm;
 mod carcassone;
 mod evolution;
 mod cards;

@@ -1,6 +1,7 @@
 use std::collections::HashSet;
 use crate::model::{Cell, Board, Pos, top_side, TerrainType, bottom_side, left_side, right_side};
-use crate::evolution::{Algorithm, create_empty_board};
+use crate::evolution::create_empty_board;
+use crate::algorithm::Algorithm;
 
 pub fn evaluate_algorithm(algorithm: &Algorithm) -> usize {
     let original_board = fill_board(&algorithm.arranged_cells);

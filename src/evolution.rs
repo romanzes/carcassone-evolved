@@ -1,4 +1,4 @@
-use crate::model::{Board, Pos, Cell, top_side, left_side, right_side, bottom_side, TerrainType};
+use crate::model::{Board, Pos, Cell};
 use crate::cards::CARDS;
 use rand::prelude::ThreadRng;
 use rand::Rng;
@@ -18,7 +18,6 @@ pub fn start_evolution(sender: &Sender<(usize, Board)>) {
     let rated_algs: Vec<Algorithm> = rated_algs.into_iter().map(|(_, alg)| alg).collect();
     population = next_generation(&rated_algs);
     update_board(sender, best_result, &best_alg);
-    println!("best result: {}", best_result);
     while best_result > 0 {
         let mut rated_algs: Vec<(usize, Algorithm)> = population.into_iter().map(|algorithm| (evaluate_algorithm(&algorithm), algorithm)).collect();
         rated_algs.sort_by_key(|(score, _)| *score);
@@ -28,12 +27,7 @@ pub fn start_evolution(sender: &Sender<(usize, Board)>) {
         best_result = new_best_result;
         best_alg = new_best_alg;
         update_board(sender, best_result, &best_alg);
-        println!("best result: {}", best_result);
     }
-    let board = fill_board(&best_alg.arranged_cells);
-    display_board(&board);
-    let serialized = serde_json::to_string(&board).unwrap();
-    println!("{:?}", serialized);
 }
 
 pub fn create_empty_board() -> Board {
@@ -106,79 +100,5 @@ fn mutate(rng: &mut ThreadRng, cells: &mut Vec<Cell>) {
             card: mutating_cell.card,
             card_side: rng.gen_range(0, 4),
         };
-    }
-}
-
-fn display_board(board: &Board) {
-    for y in 0..board.height {
-        for _ in 0..board.width {
-            print!("┼──────────");
-        }
-        println!();
-
-        for x in 0..board.width {
-            let side = match top_side(&board.cells[x][y]) {
-                TerrainType::FIELD => "          ",
-                TerrainType::ROAD => "    ██    ",
-                TerrainType::TOWN => "██████████",
-            };
-            print!("│{}", side);
-        }
-        println!();
-
-        for x in 0..board.width {
-            let left_side = match left_side(&board.cells[x][y]) {
-                TerrainType::FIELD => "  ",
-                TerrainType::ROAD => "  ",
-                TerrainType::TOWN => "██",
-            };
-            let right_side = match right_side(&board.cells[x][y]) {
-                TerrainType::FIELD => "  ",
-                TerrainType::ROAD => "  ",
-                TerrainType::TOWN => "██",
-            };
-            print!("│{}      {}", left_side, right_side);
-        }
-        println!();
-
-        for x in 0..board.width {
-            let left_side = match left_side(&board.cells[x][y]) {
-                TerrainType::FIELD => "  ",
-                TerrainType::ROAD => "██",
-                TerrainType::TOWN => "██",
-            };
-            let right_side = match right_side(&board.cells[x][y]) {
-                TerrainType::FIELD => "  ",
-                TerrainType::ROAD => "██",
-                TerrainType::TOWN => "██",
-            };
-            print!("│{}      {}", left_side, right_side);
-        }
-        println!();
-
-        for x in 0..board.width {
-            let left_side = match left_side(&board.cells[x][y]) {
-                TerrainType::FIELD => "  ",
-                TerrainType::ROAD => "  ",
-                TerrainType::TOWN => "██",
-            };
-            let right_side = match right_side(&board.cells[x][y]) {
-                TerrainType::FIELD => "  ",
-                TerrainType::ROAD => "  ",
-                TerrainType::TOWN => "██",
-            };
-            print!("│{}      {}", left_side, right_side);
-        }
-        println!();
-
-        for x in 0..board.width {
-            let side = match bottom_side(&board.cells[x][y]) {
-                TerrainType::FIELD => "          ",
-                TerrainType::ROAD => "    ██    ",
-                TerrainType::TOWN => "██████████",
-            };
-            print!("│{}", side);
-        }
-        println!()
     }
 }

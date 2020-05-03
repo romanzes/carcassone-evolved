@@ -16,7 +16,7 @@ use gdk::prelude::GdkContextExt;
 use std::f64::consts::PI;
 use std::borrow::Borrow;
 use crate::cards::CARDS;
-use crate::model::{Card, Board};
+use crate::model::{Card, Board, top_side, TerrainType, left_side, right_side, bottom_side};
 use crate::evolution::{start_evolution, create_empty_board};
 
 const PROGRAM_NAME: &str = "Carcassone Evolved";
@@ -148,10 +148,90 @@ impl GtkVisualizer {
         area.show_all();
         area
     }
+
+    fn display_board(board: &Board) {
+        for y in 0..board.height {
+            for _ in 0..board.width {
+                print!("┼──────────");
+            }
+            println!();
+
+            for x in 0..board.width {
+                let side = match top_side(&board.cells[x][y]) {
+                    TerrainType::FIELD => "          ",
+                    TerrainType::ROAD => "    ██    ",
+                    TerrainType::TOWN => "██████████",
+                };
+                print!("│{}", side);
+            }
+            println!();
+
+            for x in 0..board.width {
+                let left_side = match left_side(&board.cells[x][y]) {
+                    TerrainType::FIELD => "  ",
+                    TerrainType::ROAD => "  ",
+                    TerrainType::TOWN => "██",
+                };
+                let right_side = match right_side(&board.cells[x][y]) {
+                    TerrainType::FIELD => "  ",
+                    TerrainType::ROAD => "  ",
+                    TerrainType::TOWN => "██",
+                };
+                print!("│{}      {}", left_side, right_side);
+            }
+            println!();
+
+            for x in 0..board.width {
+                let left_side = match left_side(&board.cells[x][y]) {
+                    TerrainType::FIELD => "  ",
+                    TerrainType::ROAD => "██",
+                    TerrainType::TOWN => "██",
+                };
+                let right_side = match right_side(&board.cells[x][y]) {
+                    TerrainType::FIELD => "  ",
+                    TerrainType::ROAD => "██",
+                    TerrainType::TOWN => "██",
+                };
+                print!("│{}      {}", left_side, right_side);
+            }
+            println!();
+
+            for x in 0..board.width {
+                let left_side = match left_side(&board.cells[x][y]) {
+                    TerrainType::FIELD => "  ",
+                    TerrainType::ROAD => "  ",
+                    TerrainType::TOWN => "██",
+                };
+                let right_side = match right_side(&board.cells[x][y]) {
+                    TerrainType::FIELD => "  ",
+                    TerrainType::ROAD => "  ",
+                    TerrainType::TOWN => "██",
+                };
+                print!("│{}      {}", left_side, right_side);
+            }
+            println!();
+
+            for x in 0..board.width {
+                let side = match bottom_side(&board.cells[x][y]) {
+                    TerrainType::FIELD => "          ",
+                    TerrainType::ROAD => "    ██    ",
+                    TerrainType::TOWN => "██████████",
+                };
+                print!("│{}", side);
+            }
+            println!()
+        }
+    }
 }
 
 impl Visualizer for GtkVisualizer {
     fn display_result(&self, score: usize, board: Board) {
+        println!("best result: {}", score);
+        if score == 0 {
+            GtkVisualizer::display_board(&board);
+            let serialized = serde_json::to_string(&board).unwrap();
+            println!("{:?}", serialized);
+        }
         self.state.window.borrow().set_title(format!("{}: {}", PROGRAM_NAME, score).as_str());
         self.state.canvas_surface.borrow_mut().update(score, board);
         self.drawing_area.queue_draw();

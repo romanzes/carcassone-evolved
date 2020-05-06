@@ -1,0 +1,546 @@
+[
+  {
+    "sides": [
+      "FIELD",
+      "TOWN",
+      "FIELD",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "TOWN",
+      "FIELD",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "TOWN",
+      "FIELD",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "TOWN",
+      "FIELD",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "TOWN",
+      "FIELD",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "FIELD",
+      "TOWN",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "FIELD",
+      "TOWN",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "FIELD",
+      "TOWN",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "FIELD",
+      "TOWN",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "FIELD",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "FIELD",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "FIELD",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "FIELD",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "FIELD",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "FIELD",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "FIELD",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "FIELD",
+      "TOWN",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "FIELD",
+      "TOWN",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "TOWN",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "TOWN",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "TOWN",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "TOWN",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "TOWN",
+      "TOWN"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "FIELD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "FIELD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "TOWN",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "TOWN",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "TOWN",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "ROAD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "ROAD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "ROAD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "ROAD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "ROAD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "ROAD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "ROAD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "ROAD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "TOWN",
+      "ROAD",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "TOWN",
+      "ROAD",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "TOWN",
+      "ROAD",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "TOWN",
+      "ROAD",
+      "FIELD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "ROAD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "ROAD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "ROAD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "ROAD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "TOWN",
+      "TOWN",
+      "ROAD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "FIELD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "FIELD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "FIELD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "FIELD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "FIELD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "FIELD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "FIELD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "FIELD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "FIELD",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "TOWN",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "TOWN",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "TOWN",
+      "FIELD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "TOWN",
+      "ROAD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "TOWN",
+      "ROAD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "FIELD",
+      "TOWN",
+      "ROAD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "FIELD",
+      "ROAD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "FIELD",
+      "ROAD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "FIELD",
+      "ROAD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "FIELD",
+      "ROAD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "TOWN",
+      "ROAD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "TOWN",
+      "ROAD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "TOWN",
+      "ROAD",
+      "ROAD"
+    ]
+  },
+  {
+    "sides": [
+      "ROAD",
+      "ROAD",
+      "ROAD",
+      "ROAD"
+    ]
+  }
+]

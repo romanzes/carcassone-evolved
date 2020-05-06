@@ -1,5 +1,4 @@
-use crate::model::{Board, Pos, Cell};
-use crate::cards::CARDS;
+use crate::model::{Board, Pos, Cell, Card};
 use rand::prelude::ThreadRng;
 use rand::Rng;
 use crate::carcassone::{evaluate_algorithm, fill_board};
@@ -10,15 +9,15 @@ const FIELD_SIZE: usize = 15;
 const POPULATION_SIZE: usize = 50;
 const MUTATION_CHANCE: f64 = 0.5;
 
-pub fn start_evolution(sender: &Sender<RatedBoard>) {
-    let mut population: Vec<Algorithm> = (0..POPULATION_SIZE).map(|_| generate_algorithm()).collect();
+pub fn start_evolution(cards: &Vec<Card>, sender: &Sender<RatedBoard>) {
+    let mut population: Vec<Algorithm> = (0..POPULATION_SIZE).map(|_| generate_algorithm(cards)).collect();
     let mut result_found = false;
     while !result_found {
         let mut rated_algs: Vec<(usize, Algorithm)> = population.into_iter().map(|algorithm| (evaluate_algorithm(&algorithm), algorithm)).collect();
         rated_algs.sort_by_key(|(score, _)| *score);
         let (best_result, best_alg) = rated_algs[0].clone();
         let rated_algs: Vec<Algorithm> = rated_algs.into_iter().map(|(_, alg)| alg).collect();
-        population = next_generation(&rated_algs);
+        population = next_generation(cards, &rated_algs);
         let board = fill_board(&best_alg.arranged_cells);
         sender.send(RatedBoard { score: best_result, board });
         if best_result == 0 { result_found = true; }
@@ -33,22 +32,22 @@ pub fn create_empty_board() -> Board {
     }
 }
 
-fn generate_algorithm() -> Algorithm {
+fn generate_algorithm(cards: &Vec<Card>) -> Algorithm {
     let mut rng = rand::thread_rng();
-    let cells = (0..CARDS.len())
+    let cells = (0..cards.len())
         .map(|card_id| {
             let pos = Pos {
                 x: rng.gen_range(0, FIELD_SIZE),
                 y: rng.gen_range(0, FIELD_SIZE),
             };
             let card_side = rng.gen_range(0, 4);
-            Cell { pos, card: CARDS[card_id], card_side }
+            Cell { pos, card: cards[card_id], card_side }
         })
         .collect();
     Algorithm::new(cells)
 }
 
-fn next_generation(rated_algorithms: &Vec<Algorithm>) -> Vec<Algorithm> {
+fn next_generation(cards: &Vec<Card>, rated_algorithms: &Vec<Algorithm>) -> Vec<Algorithm> {
     let mut result = vec![];
     let mut rng = rand::thread_rng();
     for _ in 0..POPULATION_SIZE {
@@ -59,7 +58,7 @@ fn next_generation(rated_algorithms: &Vec<Algorithm>) -> Vec<Algorithm> {
         }
         let parent1 = &rated_algorithms[index1];
         let parent2 = &rated_algorithms[index2];
-        result.push(breed(parent1, parent2));
+        result.push(breed(cards, parent1, parent2));
     }
     result
 }
@@ -69,9 +68,9 @@ fn select_index(rng: &mut ThreadRng) -> usize {
     ((1.0 - ((1.0 - rand).sqrt())) * POPULATION_SIZE as f64) as usize
 }
 
-fn breed(algorithm1: &Algorithm, algorithm2: &Algorithm) -> Algorithm {
+fn breed(cards: &Vec<Card>, algorithm1: &Algorithm, algorithm2: &Algorithm) -> Algorithm {
     let mut rng = rand::thread_rng();
-    let index = rng.gen_range(0, CARDS.len());
+    let index = rng.gen_range(0, cards.len());
     let (first_part, _) = algorithm1.cells.split_at(index);
     let (_, second_part) = algorithm2.cells.split_at(index);
     let mut cells: Vec<Cell> = vec![];

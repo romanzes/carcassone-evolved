@@ -1,7 +1,6 @@
 mod algorithm;
 mod carcassone;
 mod evolution;
-mod cards;
 mod model;
 
 use gio::prelude::*;
@@ -15,9 +14,9 @@ use cairo::ImageSurface;
 use gdk::prelude::GdkContextExt;
 use std::f64::consts::PI;
 use std::borrow::Borrow;
-use crate::cards::CARDS;
 use crate::model::{Card, Board, top_side, TerrainType, left_side, right_side, bottom_side};
 use crate::evolution::{start_evolution, create_empty_board};
+use std::path::Path;
 
 const PROGRAM_NAME: &str = "Carcassone Evolved";
 const SCALE: f64 = 0.5;
@@ -33,13 +32,21 @@ fn main() {
     app.run(&std::env::args().collect::<Vec<_>>());
 }
 
+fn load_cards() -> Vec<Card> {
+    let cards_file = std::fs::File::open(Path::new("./resources/cards.json")).unwrap();
+    serde_json::from_reader(cards_file).unwrap()
+}
+
 fn build_ui(app: &gtk::Application) {
     let (tx, rx) = glib::MainContext::channel(glib::PRIORITY_DEFAULT);
     std::thread::spawn(move || {
-        start_evolution(&tx);
+        // TODO find a way to load cards only once and share them among threads
+        let cards = load_cards();
+        start_evolution(&cards, &tx);
     });
 
-    let visualizer = GtkVisualizer::new(app);
+    let cards = load_cards();
+    let visualizer = GtkVisualizer::new(&cards, app);
 
     rx.attach(None, move |board| {
         visualizer.display_result(board.score, board.board);
@@ -110,10 +117,10 @@ struct GtkVisualizer {
 }
 
 impl GtkVisualizer {
-    fn new(app: &gtk::Application) -> GtkVisualizer {
+    fn new(cards: &Vec<Card>, app: &gtk::Application) -> GtkVisualizer {
         let window = gtk::ApplicationWindow::new(app);
 
-        let card_images = CARDS.iter().map(|card| {
+        let card_images = cards.iter().map(|card| {
             let file_name = format!("./resources/{}-{}-{}-{}.png", card.sides[0], card.sides[1], card.sides[2], card.sides[3]);
             let image = Pixbuf::new_from_file(file_name).unwrap();
             (card.clone(), image)

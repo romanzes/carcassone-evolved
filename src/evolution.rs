@@ -1,4 +1,4 @@
-use crate::model::{Board, Pos, Cell, Card};
+use crate::model::{Board, Pos, Cell, Card, CardSide};
 use rand::prelude::ThreadRng;
 use rand::Rng;
 use crate::carcassone::{evaluate_algorithm, fill_board};
@@ -40,8 +40,13 @@ fn generate_algorithm(cards: &Vec<Card>) -> Algorithm {
                 x: rng.gen_range(0, FIELD_SIZE),
                 y: rng.gen_range(0, FIELD_SIZE),
             };
-            let card_side = rng.gen_range(0, 4);
-            Cell { pos, card: cards[card_id], card_side }
+            let card_side = match rng.gen_range(0, 4) {
+                0 => CardSide::LEFT,
+                1 => CardSide::TOP,
+                2 => CardSide::RIGHT,
+                _ => CardSide::BOTTOM,
+            };
+            Cell { pos, card: cards[card_id].clone(), card_side }
         })
         .collect();
     Algorithm::new(cells)
@@ -74,8 +79,8 @@ fn breed(cards: &Vec<Card>, algorithm1: &Algorithm, algorithm2: &Algorithm) -> A
     let (first_part, _) = algorithm1.cells.split_at(index);
     let (_, second_part) = algorithm2.cells.split_at(index);
     let mut cells: Vec<Cell> = vec![];
-    cells.extend(first_part);
-    cells.extend(second_part);
+    cells.extend_from_slice(first_part);
+    cells.extend_from_slice(second_part);
     mutate(&mut rng, &mut cells);
     Algorithm::new(cells)
 }
@@ -83,11 +88,17 @@ fn breed(cards: &Vec<Card>, algorithm1: &Algorithm, algorithm2: &Algorithm) -> A
 fn mutate(rng: &mut ThreadRng, cells: &mut Vec<Cell>) {
     if rng.gen_range(0.0, 1.0) > MUTATION_CHANCE {
         let mutation_index = rng.gen_range(0, cells.len());
-        let mutating_cell = cells[mutation_index];
+        let mutating_cell = cells[mutation_index].clone();
+        let card_side = match rng.gen_range(0, 4) {
+            0 => CardSide::LEFT,
+            1 => CardSide::TOP,
+            2 => CardSide::RIGHT,
+            _ => CardSide::BOTTOM,
+        };
         cells[mutation_index] = Cell {
             pos: Pos { x: rng.gen_range(0, FIELD_SIZE), y: rng.gen_range(0, FIELD_SIZE) },
             card: mutating_cell.card,
-            card_side: rng.gen_range(0, 4),
+            card_side,
         };
     }
 }

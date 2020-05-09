@@ -25,7 +25,7 @@ fn extract_clusters(board: &mut Board) -> Vec<Cluster> {
     let mut result = vec![];
     for x in 0..board.width {
         for y in 0..board.height {
-            if let Some(cell) = board.cells[x][y] {
+            if let Some(cell) = board.cells[x][y].clone() {
                 let mut cluster_cells = vec![];
                 let mut cells = vec![cell];
                 while cells.len() != 0 {
@@ -44,14 +44,14 @@ fn count_non_matching_tiles(board: &Board) -> usize {
     let mut result = 0;
     for x in 0..board.width - 1 {
         for y in 0..board.height {
-            if let (Some(cell1), Some(cell2)) = (board.cells[x][y], board.cells[x + 1][y]) {
+            if let (Some(cell1), Some(cell2)) = (&board.cells[x][y], &board.cells[x + 1][y]) {
                 if cell1.right() != cell2.left() { result += 1; }
             }
         }
     }
     for x in 0..board.width {
         for y in 0..board.height - 1 {
-            if let (Some(cell1), Some(cell2)) = (board.cells[x][y], board.cells[x][y + 1]) {
+            if let (Some(cell1), Some(cell2)) = (&board.cells[x][y], &board.cells[x][y + 1]) {
                 if cell1.bottom() != cell2.top() { result += 1; }
             }
         }
@@ -66,7 +66,7 @@ fn get_leaves(board: &Board, cells: &Vec<Cell>) -> Vec<Cell> {
         get_neighbours(board, &cell.pos).iter().for_each(|neighbour| {
             if !checked_leaves.contains(neighbour) {
                 checked_leaves.insert(neighbour.clone());
-                leaves.push(board.cells[neighbour.x][neighbour.y].unwrap());
+                leaves.push(board.cells[neighbour.x][neighbour.y].clone().unwrap());
             }
         })
     });

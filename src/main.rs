@@ -14,7 +14,7 @@ use cairo::ImageSurface;
 use gdk::prelude::GdkContextExt;
 use std::f64::consts::PI;
 use std::borrow::Borrow;
-use crate::model::{Card, Board, top_side, TerrainType, left_side, right_side, bottom_side};
+use crate::model::{Card, Board, top_side, TerrainType, left_side, right_side, bottom_side, CardSide};
 use crate::evolution::{start_evolution, create_empty_board};
 use std::path::Path;
 
@@ -92,11 +92,17 @@ impl CanvasSurface {
         context.fill();
         for x in 0..self.board.width {
             for y in 0..self.board.height {
-                if let Some(cell) = self.board.cells[x][y] {
+                if let Some(cell) = &self.board.cells[x][y] {
                     let image = &self.card_images[&cell.card];
                     context.save();
                     context.translate((x as f64 + 0.5) * 86.0, (y as f64 + 0.5) * 86.0);
-                    context.rotate(cell.card_side as f64 * PI / 2.0);
+                    let rotation = match cell.card_side {
+                        CardSide::LEFT => 0.0,
+                        CardSide::TOP => PI / 2.0,
+                        CardSide::RIGHT => PI,
+                        CardSide::BOTTOM => PI * 3.0 / 2.0,
+                    };
+                    context.rotate(rotation);
                     context.set_source_pixbuf(image, -43.0, -43.0);
                     context.paint();
                     context.fill();
@@ -121,7 +127,7 @@ impl GtkVisualizer {
         let window = gtk::ApplicationWindow::new(app);
 
         let card_images = cards.iter().map(|card| {
-            let file_name = format!("./resources/{}-{}-{}-{}.png", card.sides[0], card.sides[1], card.sides[2], card.sides[3]);
+            let file_name = format!("./resources/{}", card.pic);
             let image = Pixbuf::new_from_file(file_name).unwrap();
             (card.clone(), image)
         }).collect::<HashMap<Card, Pixbuf>>();

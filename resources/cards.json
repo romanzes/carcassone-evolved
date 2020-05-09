@@ -1,546 +1,915 @@
 [
   {
-    "sides": [
-      "FIELD",
-      "TOWN",
-      "FIELD",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "TOWN",
-      "FIELD",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "TOWN",
-      "FIELD",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "TOWN",
-      "FIELD",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "TOWN",
-      "FIELD",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "FIELD",
-      "TOWN",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "FIELD",
-      "TOWN",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "FIELD",
-      "TOWN",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "FIELD",
-      "TOWN",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "FIELD",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "FIELD",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "FIELD",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "FIELD",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "FIELD",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "FIELD",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "FIELD",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "FIELD",
-      "TOWN",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "FIELD",
-      "TOWN",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "TOWN",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "TOWN",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "TOWN",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "TOWN",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "TOWN",
-      "TOWN"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "FIELD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "FIELD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "TOWN",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "TOWN",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "TOWN",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "ROAD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "ROAD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "ROAD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "ROAD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "ROAD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "ROAD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "ROAD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "ROAD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "TOWN",
-      "ROAD",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "TOWN",
-      "ROAD",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "TOWN",
-      "ROAD",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "TOWN",
-      "ROAD",
-      "FIELD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "ROAD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "ROAD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "ROAD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "ROAD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "TOWN",
-      "TOWN",
-      "ROAD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "FIELD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "FIELD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "FIELD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "FIELD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "FIELD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "FIELD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "FIELD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "FIELD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "FIELD",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "TOWN",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "TOWN",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "TOWN",
-      "FIELD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "TOWN",
-      "ROAD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "TOWN",
-      "ROAD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "FIELD",
-      "TOWN",
-      "ROAD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "FIELD",
-      "ROAD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "FIELD",
-      "ROAD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "FIELD",
-      "ROAD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "FIELD",
-      "ROAD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "TOWN",
-      "ROAD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "TOWN",
-      "ROAD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "TOWN",
-      "ROAD",
-      "ROAD"
-    ]
-  },
-  {
-    "sides": [
-      "ROAD",
-      "ROAD",
-      "ROAD",
-      "ROAD"
-    ]
+    "monastery": true,
+    "pic": "monastery.png"
+  },
+  {
+    "monastery": true,
+    "pic": "monastery.png"
+  },
+  {
+    "monastery": true,
+    "pic": "monastery.png"
+  },
+  {
+    "monastery": true,
+    "pic": "monastery.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["BOTTOM"],
+        "value": 1
+      }
+    ],
+    "monastery": true,
+    "pic": "monastery-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["BOTTOM"],
+        "value": 1
+      }
+    ],
+    "monastery": true,
+    "pic": "monastery-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP", "RIGHT", "BOTTOM"],
+        "value": 2
+      }
+    ],
+    "pic": "town-town-town-town-shield.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP", "RIGHT"],
+        "value": 1
+      }
+    ],
+    "pic": "town-town-town-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP", "RIGHT"],
+        "value": 1
+      }
+    ],
+    "pic": "town-town-town-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP", "RIGHT"],
+        "value": 1
+      }
+    ],
+    "pic": "town-town-town-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP", "RIGHT"],
+        "value": 2
+      }
+    ],
+    "pic": "town-town-town-field-shield.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP", "RIGHT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "town-town-town-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP", "RIGHT"],
+        "value": 2
+      },
+      {
+        "type": "ROAD",
+        "sides": ["BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "town-town-town-road-shield.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP", "RIGHT"],
+        "value": 2
+      },
+      {
+        "type": "ROAD",
+        "sides": ["BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "town-town-town-road-shield.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP"],
+        "value": 1
+      }
+    ],
+    "pic": "town-town-field-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP"],
+        "value": 1
+      }
+    ],
+    "pic": "town-town-field-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP"],
+        "value": 1
+      }
+    ],
+    "pic": "town-town-field-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP"],
+        "value": 2
+      }
+    ],
+    "pic": "town-town-field-field-shield.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP"],
+        "value": 2
+      }
+    ],
+    "pic": "town-town-field-field-shield.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["RIGHT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "town-town-road-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["RIGHT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "town-town-road-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["RIGHT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "town-town-road-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP"],
+        "value": 2
+      },
+      {
+        "type": "ROAD",
+        "sides": ["RIGHT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "town-town-road-road-shield.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "TOP"],
+        "value": 2
+      },
+      {
+        "type": "ROAD",
+        "sides": ["RIGHT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "town-town-road-road-shield.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "RIGHT"],
+        "value": 1
+      }
+    ],
+    "pic": "town-field-town-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "RIGHT"],
+        "value": 2
+      }
+    ],
+    "pic": "town-field-town-field-shield.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT", "RIGHT"],
+        "value": 2
+      }
+    ],
+    "pic": "town-field-town-field-shield.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT"],
+        "value": 1
+      },
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      }
+    ],
+    "pic": "town-another-town-field-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["LEFT"],
+        "value": 1
+      },
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      }
+    ],
+    "pic": "town-another-town-field-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "TOWN",
+        "sides": ["BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "field-town-field-another-town.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "TOWN",
+        "sides": ["BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "field-town-field-another-town.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "TOWN",
+        "sides": ["BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "field-town-field-another-town.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      }
+    ],
+    "pic": "field-town-field-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      }
+    ],
+    "pic": "field-town-field-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      }
+    ],
+    "pic": "field-town-field-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      }
+    ],
+    "pic": "field-town-field-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      }
+    ],
+    "pic": "field-town-field-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["LEFT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-town-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["LEFT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-town-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["LEFT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-town-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["RIGHT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "field-town-road-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["RIGHT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "field-town-road-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["RIGHT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "field-town-road-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["LEFT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["RIGHT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-town-road-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["LEFT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["RIGHT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-town-road-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["LEFT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["RIGHT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-town-road-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["LEFT", "RIGHT"],
+        "value": 1
+      }
+    ],
+    "pic": "road-town-road-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["LEFT", "RIGHT"],
+        "value": 1
+      }
+    ],
+    "pic": "road-town-road-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["LEFT", "RIGHT"],
+        "value": 1
+      }
+    ],
+    "pic": "road-town-road-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "TOWN",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["LEFT", "RIGHT"],
+        "value": 1
+      }
+    ],
+    "pic": "road-town-road-field.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["TOP", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "field-road-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["TOP", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "field-road-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["TOP", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "field-road-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["TOP", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "field-road-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["TOP", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "field-road-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["TOP", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "field-road-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["TOP", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "field-road-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["TOP", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "field-road-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["LEFT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-field-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["LEFT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-field-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["LEFT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-field-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["LEFT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-field-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["LEFT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-field-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["LEFT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-field-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["LEFT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-field-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["LEFT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-field-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["LEFT", "BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-field-field-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["LEFT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["RIGHT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-field-road-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["LEFT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["RIGHT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-field-road-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["LEFT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["RIGHT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-field-road-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["LEFT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["RIGHT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-field-road-road.png"
+  },
+  {
+    "structs": [
+      {
+        "type": "ROAD",
+        "sides": ["LEFT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["TOP"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["RIGHT"],
+        "value": 1
+      },
+      {
+        "type": "ROAD",
+        "sides": ["BOTTOM"],
+        "value": 1
+      }
+    ],
+    "pic": "road-road-road-road.png"
   }
 ]

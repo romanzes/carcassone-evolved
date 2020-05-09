@@ -21,15 +21,15 @@ fn rearrange_overlaps(cells: &Vec<Cell>) -> Vec<Cell> {
     let mut board = create_empty_board();
     let mut cells = cells.clone();
     for index in 0..cells.len() {
-        let cell = cells[index];
+        let cell = &cells[index];
         if board.cells[cell.pos.x][cell.pos.y].is_some() {
-            let closest_free_pos = find_closest_free_pos(&mut board, &cell.pos);
+            let closest_free_pos = &find_closest_free_pos(&mut board, &cell.pos);
             cells[index] = Cell {
-                pos: closest_free_pos,
-                card: cell.card,
-                card_side: cell.card_side,
+                pos: closest_free_pos.clone(),
+                card: cell.card.clone(),
+                card_side: cell.card_side.clone(),
             };
-            board.cells[closest_free_pos.x][closest_free_pos.y] = Some(cells[index]);
+            board.cells[closest_free_pos.x][closest_free_pos.y] = Some(cells[index].clone());
         } else {
             board.cells[cell.pos.x][cell.pos.y] = Some(cell.clone());
         }
@@ -48,7 +48,7 @@ fn find_closest_free_pos(board: &mut Board, pos: &Pos) -> Pos {
 }
 
 fn get_free_cell(board: &Board, positions: &Vec<Pos>) -> Option<Pos> {
-    positions.iter().find(|pos| board.cells[pos.x][pos.y].is_none()).copied()
+    positions.iter().find(|pos| board.cells[pos.x][pos.y].is_none()).cloned()
 }
 
 fn get_halo(board: &Board, pos: &Pos, distance: usize) -> Vec<Pos> {

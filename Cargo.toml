@@ -11,24 +11,9 @@ rand = "0.7.3"
 serde = "1.0.105"
 serde_derive = "1.0.105"
 serde_json = "1.0.50"
+gdk = "0.12.1"
+gdk-pixbuf = "0.8.0"
+gtk = "0.8.1"
+glib = "0.9.3"
+gio = "0.8.1"
 cairo-rs = "0.8.1"
-
-[dependencies.gtk]
-version = "0.8.1"
-features = ["v3_24"]
-
-[dependencies.gdk]
-version = ""
-features = ["v3_24"]
-
-[dependencies.gdk-pixbuf]
-version = ""
-features = ["v2_36"]
-
-[dependencies.gio]
-version = ""
-features = ["v2_56"]
-
-[dependencies.glib]
-version = ""
-features = ["v2_56"]

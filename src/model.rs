@@ -8,7 +8,7 @@ pub struct Board {
     pub cells: Vec<Vec<Option<Cell>>>,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, Hash, PartialEq, Eq)]
 pub struct Cell {
     pub pos: Pos,
     pub card: Card,
@@ -16,6 +16,15 @@ pub struct Cell {
 }
 
 impl Cell {
+    pub fn get_side(&self, side: &CardSide) -> TerrainType {
+        match side {
+            CardSide::LEFT => self.left(),
+            CardSide::TOP => self.top(),
+            CardSide::RIGHT => self.right(),
+            CardSide::BOTTOM => self.bottom(),
+        }
+    }
+
     pub fn left(&self) -> TerrainType {
         match self.card_side {
             CardSide::LEFT => self.card.left(),
@@ -144,6 +153,17 @@ pub enum CardSide {
     TOP,
     RIGHT,
     BOTTOM
+}
+
+impl CardSide {
+    pub fn get_opposite(&self) -> CardSide {
+        match self {
+            CardSide::LEFT => CardSide::RIGHT,
+            CardSide::TOP => CardSide::BOTTOM,
+            CardSide::RIGHT => CardSide::LEFT,
+            CardSide::BOTTOM => CardSide::TOP,
+        }
+    }
 }
 
 impl std::fmt::Display for TerrainType {

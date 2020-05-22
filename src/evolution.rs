@@ -1,26 +1,36 @@
-use crate::model::{Board, Pos, Cell, Card, CardSide};
+use crate::algorithm::Algorithm;
+use crate::carcassone::{evaluate_algorithm, fill_board};
+use crate::model::{Board, Card, CardSide, Cell, Pos};
+use glib::Sender;
 use rand::prelude::ThreadRng;
 use rand::Rng;
-use crate::carcassone::{evaluate_algorithm, fill_board};
-use glib::Sender;
-use crate::algorithm::Algorithm;
 
 const FIELD_SIZE: usize = 15;
 const POPULATION_SIZE: usize = 50;
 const MUTATION_CHANCE: f64 = 0.5;
 
 pub fn start_evolution(cards: &Vec<Card>, sender: &Sender<RatedBoard>) {
-    let mut population: Vec<Algorithm> = (0..POPULATION_SIZE).map(|_| generate_algorithm(cards)).collect();
+    let mut population: Vec<Algorithm> = (0..POPULATION_SIZE)
+        .map(|_| generate_algorithm(cards))
+        .collect();
     let mut result_found = false;
     while !result_found {
-        let mut rated_algs: Vec<(usize, Algorithm)> = population.into_iter().map(|algorithm| (evaluate_algorithm(&algorithm), algorithm)).collect();
+        let mut rated_algs: Vec<(usize, Algorithm)> = population
+            .into_iter()
+            .map(|algorithm| (evaluate_algorithm(&algorithm), algorithm))
+            .collect();
         rated_algs.sort_by_key(|(score, _)| *score);
         let (best_result, best_alg) = rated_algs[0].clone();
         let rated_algs: Vec<Algorithm> = rated_algs.into_iter().map(|(_, alg)| alg).collect();
         population = next_generation(cards, &rated_algs);
         let board = fill_board(&best_alg.arranged_cells);
-        sender.send(RatedBoard { score: best_result, board });
-        if best_result == 0 { result_found = true; }
+        sender.send(RatedBoard {
+            score: best_result,
+            board,
+        });
+        if best_result == 0 {
+            result_found = true;
+        }
     }
 }
 
@@ -46,7 +56,11 @@ fn generate_algorithm(cards: &Vec<Card>) -> Algorithm {
                 2 => CardSide::RIGHT,
                 _ => CardSide::BOTTOM,
             };
-            Cell { pos, card: cards[card_id].clone(), card_side }
+            Cell {
+                pos,
+                card: cards[card_id].clone(),
+                card_side,
+            }
         })
         .collect();
     Algorithm::new(cells)
@@ -96,7 +110,10 @@ fn mutate(rng: &mut ThreadRng, cells: &mut Vec<Cell>) {
             _ => CardSide::BOTTOM,
         };
         cells[mutation_index] = Cell {
-            pos: Pos { x: rng.gen_range(0, FIELD_SIZE), y: rng.gen_range(0, FIELD_SIZE) },
+            pos: Pos {
+                x: rng.gen_range(0, FIELD_SIZE),
+                y: rng.gen_range(0, FIELD_SIZE),
+            },
             card: mutating_cell.card,
             card_side,
         };

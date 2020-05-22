@@ -3,20 +3,22 @@ mod carcassone;
 mod evolution;
 mod model;
 
-use gio::prelude::*;
-use gtk::prelude::*;
-use std::cell::RefCell;
-use std::rc::Rc;
-use std::collections::HashMap;
-use gio::ApplicationFlags;
-use gdk_pixbuf::Pixbuf;
+use crate::evolution::{create_empty_board, start_evolution};
+use crate::model::{
+    bottom_side, left_side, right_side, top_side, Board, Card, CardSide, TerrainType,
+};
 use cairo::ImageSurface;
 use gdk::prelude::GdkContextExt;
-use std::f64::consts::PI;
+use gdk_pixbuf::Pixbuf;
+use gio::prelude::*;
+use gio::ApplicationFlags;
+use gtk::prelude::*;
 use std::borrow::Borrow;
-use crate::model::{Card, Board, top_side, TerrainType, left_side, right_side, bottom_side, CardSide};
-use crate::evolution::{start_evolution, create_empty_board};
+use std::cell::RefCell;
+use std::collections::HashMap;
+use std::f64::consts::PI;
 use std::path::Path;
+use std::rc::Rc;
 
 const PROGRAM_NAME: &str = "Carcassone Evolved";
 const SCALE: f64 = 0.5;
@@ -26,7 +28,8 @@ fn main() {
     let app = gtk::Application::new(
         Some("com.romanzes.carcassone"),
         ApplicationFlags::HANDLES_OPEN | ApplicationFlags::NON_UNIQUE,
-    ).unwrap();
+    )
+    .unwrap();
     app.connect_startup(build_ui);
     app.connect_activate(|_| ());
     app.run(&std::env::args().collect::<Vec<_>>());
@@ -71,7 +74,8 @@ pub struct CanvasSurface {
 
 impl CanvasSurface {
     pub fn new(card_images: HashMap<Card, Pixbuf>) -> CanvasSurface {
-        let surface = cairo::ImageSurface::create(cairo::Format::ARgb32, WINDOW_SIZE, WINDOW_SIZE).unwrap();
+        let surface =
+            cairo::ImageSurface::create(cairo::Format::ARgb32, WINDOW_SIZE, WINDOW_SIZE).unwrap();
         CanvasSurface {
             score: 0,
             board: create_empty_board(),
@@ -126,11 +130,14 @@ impl GtkVisualizer {
     fn new(cards: &Vec<Card>, app: &gtk::Application) -> GtkVisualizer {
         let window = gtk::ApplicationWindow::new(app);
 
-        let card_images = cards.iter().map(|card| {
-            let file_name = format!("./resources/{}", card.pic);
-            let image = Pixbuf::new_from_file(file_name).unwrap();
-            (card.clone(), image)
-        }).collect::<HashMap<Card, Pixbuf>>();
+        let card_images = cards
+            .iter()
+            .map(|card| {
+                let file_name = format!("./resources/{}", card.pic);
+                let image = Pixbuf::new_from_file(file_name).unwrap();
+                (card.clone(), image)
+            })
+            .collect::<HashMap<Card, Pixbuf>>();
         let state: Rc<State> = Rc::new(State {
             app: app.clone(),
             window: window.clone(),
@@ -144,7 +151,10 @@ impl GtkVisualizer {
 
         state.window.show_all();
 
-        GtkVisualizer { state, drawing_area }
+        GtkVisualizer {
+            state,
+            drawing_area,
+        }
     }
 
     fn build_drawing_area(state: &Rc<State>) -> gtk::DrawingArea {
@@ -245,7 +255,10 @@ impl Visualizer for GtkVisualizer {
             let serialized = serde_json::to_string(&board).unwrap();
             println!("{:?}", serialized);
         }
-        self.state.window.borrow().set_title(format!("{}: {}", PROGRAM_NAME, score).as_str());
+        self.state
+            .window
+            .borrow()
+            .set_title(format!("{}: {}", PROGRAM_NAME, score).as_str());
         self.state.canvas_surface.borrow_mut().update(score, board);
         self.drawing_area.queue_draw();
     }

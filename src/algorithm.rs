@@ -1,5 +1,5 @@
 use crate::evolution::create_empty_board;
-use crate::model::{Cell, Board, Pos};
+use crate::model::{Board, Cell, Pos};
 
 #[derive(Clone)]
 pub struct Algorithm {
@@ -48,7 +48,10 @@ fn find_closest_free_pos(board: &mut Board, pos: &Pos) -> Pos {
 }
 
 fn get_free_cell(board: &Board, positions: &Vec<Pos>) -> Option<Pos> {
-    positions.iter().find(|pos| board.cells[pos.x][pos.y].is_none()).cloned()
+    positions
+        .iter()
+        .find(|pos| board.cells[pos.x][pos.y].is_none())
+        .cloned()
 }
 
 fn get_halo(board: &Board, pos: &Pos, distance: usize) -> Vec<Pos> {
@@ -64,6 +67,9 @@ fn get_halo(board: &Board, pos: &Pos, distance: usize) -> Vec<Pos> {
     result
         .into_iter()
         .filter(|(x, y)| *x >= 0 && *y >= 0 && *x < board.width as i32 && *y < board.height as i32)
-        .map(|(x, y)| Pos { x: x as usize, y: y as usize })
+        .map(|(x, y)| Pos {
+            x: x as usize,
+            y: y as usize,
+        })
         .collect()
 }

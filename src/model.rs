@@ -1,5 +1,5 @@
 use crate::model::TerrainType::FIELD;
-use serde_derive::{Serialize, Deserialize};
+use serde_derive::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Board {
@@ -125,7 +125,13 @@ impl Card {
     pub fn get_terrain(&self, side: CardSide) -> TerrainType {
         self.structs
             .iter()
-            .find(|struc| struc.sides.iter().find(|struc_side| struc_side == &&side).is_some())
+            .find(|struc| {
+                struc
+                    .sides
+                    .iter()
+                    .find(|struc_side| struc_side == &&side)
+                    .is_some()
+            })
             .map(|struc| struc.terrain.clone())
             .unwrap_or(TerrainType::FIELD)
     }
@@ -152,7 +158,7 @@ pub enum CardSide {
     LEFT,
     TOP,
     RIGHT,
-    BOTTOM
+    BOTTOM,
 }
 
 impl CardSide {
@@ -179,9 +185,9 @@ impl std::fmt::Display for TerrainType {
 }
 
 pub(crate) fn default_from_null<'de, T, D>(de: D) -> Result<T, D::Error>
-    where
-        T: serde::Deserialize<'de> + Default,
-        D: serde::Deserializer<'de>,
+where
+    T: serde::Deserialize<'de> + Default,
+    D: serde::Deserializer<'de>,
 {
     Ok(<Option<T> as serde::Deserialize>::deserialize(de)?.unwrap_or_default())
 }

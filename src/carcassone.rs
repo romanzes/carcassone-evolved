@@ -4,13 +4,12 @@ use crate::evolution::create_empty_board;
 use crate::algorithm::Algorithm;
 
 pub fn evaluate_algorithm(algorithm: &Algorithm) -> usize {
-    let original_board = fill_board(&algorithm.arranged_cells);
-    let mut board = fill_board(&algorithm.arranged_cells);
-    let clusters = extract_clusters(&mut board);
+    let board = fill_board(&algorithm.arranged_cells);
+    let clusters = extract_clusters(&board);
     let cluster_count = clusters.len() - 1;
-    let unclosed_town_parts = count_unclosed_town_parts(&original_board);
-    let non_matching_tiles = count_non_matching_tiles(&original_board);
-    let town_count = extract_towns(&original_board).len();
+    let unclosed_town_parts = count_unclosed_town_parts(&board);
+    let non_matching_tiles = count_non_matching_tiles(&board);
+    let town_count = extract_towns(&board).len();
     cluster_count + unclosed_town_parts + non_matching_tiles + town_count
 }
 
@@ -22,19 +21,22 @@ pub fn fill_board(cells: &Vec<Cell>) -> Board {
     board
 }
 
-fn extract_clusters(board: &mut Board) -> Vec<Cluster> {
+fn extract_clusters(board: &Board) -> Vec<Cluster> {
     let mut result = vec![];
+    let mut checked_cells = HashSet::new();
     for x in 0..board.width {
         for y in 0..board.height {
             if let Some(cell) = board.cells[x][y].clone() {
-                let mut cluster_cells = vec![];
-                let mut cells = vec![cell];
-                while cells.len() != 0 {
-                    cluster_cells.extend(cells.clone());
-                    remove_cells(board, &cells);
-                    cells = get_leaves(board, &cells);
+                if !checked_cells.contains(&cell) {
+                    checked_cells.insert(cell.clone());
+                    let mut cluster_cells = vec![];
+                    let mut cells = vec![cell];
+                    while cells.len() != 0 {
+                        cluster_cells.extend(cells.clone());
+                        cells = get_leaves(board, &cells, &mut checked_cells);
+                    }
+                    result.push(Cluster { cells: cluster_cells });
                 }
-                result.push(Cluster { cells: cluster_cells });
             }
         }
     }
@@ -60,21 +62,20 @@ fn count_non_matching_tiles(board: &Board) -> usize {
     result
 }
 
-fn get_leaves(board: &Board, cells: &Vec<Cell>) -> Vec<Cell> {
-    let mut checked_leaves: HashSet<Pos> = HashSet::new();
+fn get_leaves(board: &Board, cells: &Vec<Cell>, checked_cells: &mut HashSet<Cell>) -> Vec<Cell> {
     let mut leaves = vec![];
     cells.iter().for_each(|cell| {
         get_neighbours(board, &cell.pos).iter().for_each(|neighbour| {
-            if !checked_leaves.contains(neighbour) {
-                checked_leaves.insert(neighbour.clone());
-                leaves.push(board.cells[neighbour.x][neighbour.y].clone().unwrap());
+            if !checked_cells.contains(neighbour) {
+                checked_cells.insert(neighbour.clone());
+                leaves.push(neighbour.clone());
             }
         })
     });
     leaves
 }
 
-fn get_neighbours(board: &Board, pos: &Pos) -> Vec<Pos> {
+fn get_neighbours(board: &Board, pos: &Pos) -> Vec<Cell> {
     vec![
         (pos.x as i32 - 1, pos.y as i32),
         (pos.x as i32 + 1, pos.y as i32),
@@ -83,12 +84,8 @@ fn get_neighbours(board: &Board, pos: &Pos) -> Vec<Pos> {
     ]
         .into_iter()
         .filter(|(x, y)| *x >= 0 && *y >= 0 && *x < board.width as i32 && *y < board.height as i32 && board.cells[*x as usize][*y as usize].is_some())
-        .map(|(x, y)| Pos { x: x as usize, y: y as usize })
+        .map(|(x, y)| board.cells[x as usize][y as usize].clone().unwrap())
         .collect()
-}
-
-fn remove_cells(board: &mut Board, cells: &Vec<Cell>) {
-    cells.iter().for_each(|cell| board.cells[cell.pos.x][cell.pos.y] = None);
 }
 
 fn count_unclosed_town_parts(board: &Board) -> usize {
